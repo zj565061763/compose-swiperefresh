@@ -36,17 +36,16 @@ fun DefaultSwipeRefreshIndicator(
 
     var indicatorSize by remember { mutableStateOf(IntSize.Zero) }
 
+
     if (configRefreshTriggerDistance) {
         val refreshingDistance = containerApi.refreshingDistance
-        DisposableEffect(refreshingDistance) {
-            val triggerDistance = if (refreshingDistance > 0) {
-                (refreshingDistance * RefreshingDistanceMultiplier).roundToInt()
-            } else {
-                null
-            }
-            containerApi.setRefreshTriggerDistance(triggerDistance)
-            onDispose {
-                containerApi.setRefreshTriggerDistance(null)
+        if (refreshingDistance > 0) {
+            DisposableEffect(refreshingDistance) {
+                val triggerDistance = refreshingDistance * RefreshingDistanceMultiplier
+                containerApi.setRefreshTriggerDistance(triggerDistance.roundToInt())
+                onDispose {
+                    containerApi.setRefreshTriggerDistance(null)
+                }
             }
         }
     }
@@ -57,11 +56,13 @@ fun DefaultSwipeRefreshIndicator(
             OrientationMode.Vertical -> indicatorSize.height
             OrientationMode.Horizontal -> indicatorSize.width
         }
-        DisposableEffect(orientationSize) {
-            val ignoredDistance = orientationSize / 2f
-            containerApi.setIgnoredProgressDistance(ignoredDistance.roundToInt())
-            onDispose {
-                containerApi.setIgnoredProgressDistance(null)
+        if (orientationSize > 0) {
+            DisposableEffect(orientationSize) {
+                val ignoredDistance = orientationSize / 2f
+                containerApi.setIgnoredProgressDistance(ignoredDistance.roundToInt())
+                onDispose {
+                    containerApi.setIgnoredProgressDistance(null)
+                }
             }
         }
     }
