@@ -67,11 +67,11 @@ private fun Sample(
             viewModel.loadMore()
         },
         indicatorStart = {
-            // Custom indicator style for start direction.
+            // Custom indicator style for the start direction.
             CustomizedIndicator()
         },
         indicatorEnd = {
-            // Custom indicator for end direction.
+            // Custom indicator style for the end direction.
             CustomizedIndicator()
         },
         modifier = Modifier.fillMaxWidth(),

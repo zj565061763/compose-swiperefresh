@@ -60,7 +60,7 @@ It is easy to customize the indicator style, here is a quick sample:
 
 FSwipeRefresh(
     indicatorStart = {
-        // Custom indicator style for start direction.
+        // Custom indicator style for the start direction.
         CustomizedIndicator()
     },
     //...
