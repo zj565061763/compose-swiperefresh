@@ -286,7 +286,7 @@ abstract class DraggableIndicatorContainerState(
 /**
  * [IndicatorMode.Above]
  */
-internal class IndicatorContainerStateAbove(
+open class IndicatorContainerStateAbove(
     swipeRefreshState: FSwipeRefreshState,
     direction: RefreshDirection,
 ) : DraggableIndicatorContainerState(swipeRefreshState, direction) {
@@ -298,7 +298,7 @@ internal class IndicatorContainerStateAbove(
 /**
  * [IndicatorMode.Drag]
  */
-internal class IndicatorContainerStateDrag(
+open class IndicatorContainerStateDrag(
     swipeRefreshState: FSwipeRefreshState,
     direction: RefreshDirection,
 ) : DraggableIndicatorContainerState(swipeRefreshState, direction) {
@@ -314,7 +314,7 @@ internal class IndicatorContainerStateDrag(
 /**
  * [IndicatorMode.Below]
  */
-internal class IndicatorContainerStateBelow(
+open class IndicatorContainerStateBelow(
     swipeRefreshState: FSwipeRefreshState,
     direction: RefreshDirection,
 ) : DraggableIndicatorContainerState(swipeRefreshState, direction) {
@@ -334,7 +334,7 @@ internal class IndicatorContainerStateBelow(
 /**
  * [IndicatorMode.Invisible]
  */
-internal class IndicatorContainerStateInvisible(
+open class IndicatorContainerStateInvisible(
     swipeRefreshState: FSwipeRefreshState,
     direction: RefreshDirection,
 ) : ExpandedIndicatorContainerState(swipeRefreshState, direction) {
