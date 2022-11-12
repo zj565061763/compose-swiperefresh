@@ -25,6 +25,7 @@ interface ContainerApiForIndicator {
      * The width or height of the container, which is determined by the [FSwipeRefreshState.orientationMode].
      */
     val containerSize: Int
+
     /**
      * The distance between the container idle state and the refreshing state.
      */
