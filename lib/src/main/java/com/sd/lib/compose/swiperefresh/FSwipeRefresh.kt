@@ -162,6 +162,12 @@ class FSwipeRefreshState internal constructor(
         private set
 
     /**
+     * The current offset for the content.
+     */
+    var contentOffset by mutableStateOf(0f)
+        private set
+
+    /**
      * [RefreshStateRecord]
      */
     var refreshStateRecord: RefreshStateRecord by mutableStateOf(RefreshStateRecord())
@@ -223,8 +229,6 @@ class FSwipeRefreshState internal constructor(
     internal var _onRefreshStart by mutableStateOf<(() -> Unit)?>(null)
     internal var _onRefreshEnd by mutableStateOf<(() -> Unit)?>(null)
 
-    internal var contentOffset by mutableStateOf(0f)
-        private set
 
     private val _containerJobs: MutableMap<Job, String> = ConcurrentHashMap()
 
