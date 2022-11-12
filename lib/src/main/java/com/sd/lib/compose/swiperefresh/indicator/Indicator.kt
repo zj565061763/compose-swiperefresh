@@ -5,10 +5,10 @@ import androidx.compose.runtime.remember
 import com.sd.lib.compose.swiperefresh.*
 
 /**
- * Indicator for the start direction.
+ * Indicator container for the start direction.
  */
 @Composable
-fun FSwipeRefreshStartIndicator(
+fun StartIndicatorContainer(
     containerState: IndicatorContainerState? = null,
     indicator: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
 ) {
@@ -28,10 +28,10 @@ fun FSwipeRefreshStartIndicator(
 
 
 /**
- * Indicator for the end direction.
+ * Indicator container for the end direction.
  */
 @Composable
-fun FSwipeRefreshEndIndicator(
+fun EndIndicatorContainer(
     containerState: IndicatorContainerState? = null,
     indicator: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
 ) {
