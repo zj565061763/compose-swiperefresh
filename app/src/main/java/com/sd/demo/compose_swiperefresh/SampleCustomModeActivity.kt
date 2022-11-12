@@ -120,7 +120,7 @@ private fun StartIndicatorContent(isReachBounds: Boolean) {
             contentAlignment = Alignment.Center,
         ) {
             Image(
-                painter = painterResource(id = R.drawable.new_ui),
+                painter = painterResource(id = R.drawable.image),
                 contentDescription = "new ui",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop,
@@ -179,19 +179,20 @@ private class CustomizedIndicatorContainerState(
         swipeRefreshState.sharedOffset.absoluteValue > refreshTriggerDistance * 2f
     }
 
-    override fun onRelease(): Boolean {
-        if (swipeRefreshState.refreshState != RefreshState.Drag) return false
-        val swipeRefreshApi = swipeRefreshApi ?: return false
+    override fun onPreFling(available: Float): Float {
+        if (swipeRefreshState.refreshState != RefreshState.Drag) return 0f
+        val swipeRefreshApi = swipeRefreshApi ?: return 0f
 
         val offset = swipeRefreshState.sharedOffset
-        if (offset == 0f) return false
+        if (offset == 0f) return 0f
 
-        if (isReachBounds) {
+        val openNewUi = isReachBounds && available >= 0f
+        if (openNewUi) {
             swipeRefreshApi.launch {
                 swipeRefreshApi.animateToOffset(containerSize.toFloat(), RefreshState.Refreshing)
             }
         }
 
-        return if (isReachBounds) true else super.onRelease()
+        return if (openNewUi) available else super.onPreFling(available)
     }
 }

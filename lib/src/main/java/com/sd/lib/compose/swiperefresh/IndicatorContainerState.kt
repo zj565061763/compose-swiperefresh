@@ -99,9 +99,9 @@ interface ContainerApiForSwipeRefresh {
     fun onPostScroll(available: Float, source: NestedScrollSource): Float
 
     /**
-     * Called when the drag is released.
+     * [NestedScrollConnection.onPreFling]
      */
-    fun onRelease(): Boolean
+    fun onPreFling(available: Float): Float
 
     /**
      * Called when [FSwipeRefreshState.sharedOffset] is changed.

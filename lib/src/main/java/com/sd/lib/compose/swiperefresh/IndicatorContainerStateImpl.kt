@@ -150,8 +150,8 @@ abstract class ExpandedIndicatorContainerState(
         return 0f
     }
 
-    override fun onRelease(): Boolean {
-        return false
+    override fun onPreFling(available: Float): Float {
+        return 0f
     }
 
     override fun onOffsetChanged() {
@@ -229,12 +229,12 @@ abstract class DraggableIndicatorContainerState(
         return 0f
     }
 
-    override fun onRelease(): Boolean {
-        if (swipeRefreshState.refreshState != RefreshState.Drag) return false
-        val swipeRefreshApi = swipeRefreshApi ?: return false
+    override fun onPreFling(available: Float): Float {
+        if (swipeRefreshState.refreshState != RefreshState.Drag) return 0f
+        val swipeRefreshApi = swipeRefreshApi ?: return 0f
 
         val offset = swipeRefreshState.sharedOffset
-        if (offset == 0f) return false
+        if (offset == 0f) return 0f
 
         val notifyRefresh = reachRefreshDistance
 
@@ -248,7 +248,7 @@ abstract class DraggableIndicatorContainerState(
             hideRefreshing(true)
         }
 
-        return notifyRefresh
+        return if (notifyRefresh) available else 0f
     }
 
     override suspend fun showRefreshing(): Boolean {

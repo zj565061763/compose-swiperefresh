@@ -92,8 +92,7 @@ private fun SwipeRefresh(
             }
 
             override suspend fun onPreFling(available: Velocity): Velocity {
-                if (state.handleRelease()) return available
-                return super.onPreFling(available)
+                return state.handlePreFling(available)
             }
         }
     }
@@ -315,9 +314,9 @@ class FSwipeRefreshState internal constructor(
         return orientationHandler.handlePostScroll(available, source)
     }
 
-    internal fun handleRelease(): Boolean {
-        if (_resetInProgress) return false
-        return orientationHandler.handleRelease().also {
+    internal fun handlePreFling(available: Velocity): Velocity {
+        if (_resetInProgress) return Velocity.Zero
+        return orientationHandler.handlePreFling(available).also {
             if (_refreshState == RefreshState.Drag && _internalOffset == 0f) {
                 _refreshState = RefreshState.None
             }
@@ -481,13 +480,20 @@ class FSwipeRefreshState internal constructor(
         abstract fun unpack(offset: Offset): Float
         abstract fun packConsume(offset: Float): Offset
 
+        abstract fun unpackVelocity(velocity: Velocity): Float
+        abstract fun packConsumeVelocity(velocity: Float): Velocity
+
         abstract fun handlePreScroll(available: Offset, source: NestedScrollSource): Offset
         abstract fun handlePostScroll(available: Offset, source: NestedScrollSource): Offset
 
-        fun handleRelease(): Boolean {
-            val direction = currentDirection ?: return false
-            val api = direction.containerApi() ?: return false
-            return api.onRelease()
+        fun handlePreFling(available: Velocity): Velocity {
+            val direction = currentDirection ?: return Velocity.Zero
+            val api = direction.containerApi() ?: return Velocity.Zero
+
+            val velocity = unpackVelocity(available)
+            val consume = api.onPreFling(velocity)
+
+            return packConsumeVelocity(consume)
         }
     }
 
@@ -529,11 +535,17 @@ class FSwipeRefreshState internal constructor(
     private inner class VerticalHandler : DefaultHandler() {
         override fun unpack(offset: Offset): Float = offset.y
         override fun packConsume(offset: Float): Offset = Offset(0f, offset)
+
+        override fun unpackVelocity(velocity: Velocity): Float = velocity.y
+        override fun packConsumeVelocity(velocity: Float): Velocity = Velocity(0f, velocity)
     }
 
     private inner class HorizontalHandler : DefaultHandler() {
         override fun unpack(offset: Offset): Float = offset.x
         override fun packConsume(offset: Float): Offset = Offset(offset, 0f)
+
+        override fun unpackVelocity(velocity: Velocity): Float = velocity.x
+        override fun packConsumeVelocity(velocity: Float): Velocity = Velocity(velocity, 0f)
     }
 
     private fun RefreshDirection.containerApi(): ContainerApiForSwipeRefresh? {
