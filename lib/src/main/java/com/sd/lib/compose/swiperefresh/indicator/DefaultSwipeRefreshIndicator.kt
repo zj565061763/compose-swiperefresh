@@ -25,22 +25,25 @@ fun DefaultSwipeRefreshIndicator(
     strokeWidth: Dp = 2.dp,
     size: Dp = 40.dp,
     spinnerSize: Dp = size.times(0.5f),
-    padding: PaddingValues = PaddingValues(5.dp)
+    padding: PaddingValues = PaddingValues(5.dp),
+    configRefreshTriggerDistance: Boolean = true,
 ) {
     val swipeRefreshState = checkNotNull(LocalFSwipeRefreshState.current)
     val containerApi = checkNotNull(LocalContainerApiForIndicator.current)
 
-    // Configure the refresh trigger distance.
-    val refreshingDistance = containerApi.refreshingDistance
-    DisposableEffect(refreshingDistance) {
-        val triggerDistance = if (refreshingDistance > 0) {
-            (refreshingDistance * RefreshingDistanceMultiplier).roundToInt()
-        } else {
-            null
-        }
-        containerApi.setRefreshTriggerDistance(triggerDistance)
-        onDispose {
-            containerApi.setRefreshTriggerDistance(null)
+
+    if (configRefreshTriggerDistance) {
+        val refreshingDistance = containerApi.refreshingDistance
+        DisposableEffect(refreshingDistance) {
+            val triggerDistance = if (refreshingDistance > 0) {
+                (refreshingDistance * RefreshingDistanceMultiplier).roundToInt()
+            } else {
+                null
+            }
+            containerApi.setRefreshTriggerDistance(triggerDistance)
+            onDispose {
+                containerApi.setRefreshTriggerDistance(null)
+            }
         }
     }
 
@@ -91,6 +94,7 @@ fun DefaultSwipeRefreshIndicator(
             }
         }
     }
+
 
     GoogleSwipeRefreshIndicator(
         isRefreshing = swipeRefreshState.isRefreshing,
