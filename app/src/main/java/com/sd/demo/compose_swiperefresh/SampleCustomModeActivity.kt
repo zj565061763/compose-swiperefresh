@@ -3,7 +3,6 @@ package com.sd.demo.compose_swiperefresh
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -96,7 +95,7 @@ private fun SwipeRefreshIndicator() {
 
     // Indicator container for the start direction.
     StartIndicatorContainer(startContainerState) {
-        StartIndicatorContent(startContainerState)
+        StartIndicatorContent(startContainerState.isReachBounds)
     }
 
     // Indicator container for the end direction.
@@ -104,9 +103,11 @@ private fun SwipeRefreshIndicator() {
 }
 
 @Composable
-private fun StartIndicatorContent(containerState: CustomizedIndicatorContainerState) {
+private fun StartIndicatorContent(isReachBounds: Boolean) {
 
     val state = checkNotNull(LocalFSwipeRefreshState.current)
+    val containerApi = checkNotNull(LocalContainerApiForIndicator.current)
+
     var indicatorSize by remember { mutableStateOf(IntSize.Zero) }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -114,7 +115,7 @@ private fun StartIndicatorContent(containerState: CustomizedIndicatorContainerSt
             modifier = Modifier
                 .fillMaxSize()
                 .graphicsLayer {
-                    alpha = state.sharedOffset.absoluteValue / containerState.containerSize
+                    alpha = state.sharedOffset.absoluteValue / containerApi.containerSize
                 },
             contentAlignment = Alignment.Center,
         ) {
@@ -141,8 +142,8 @@ private fun StartIndicatorContent(containerState: CustomizedIndicatorContainerSt
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
-            val showTipsText = containerState.isReachBounds && state.refreshState == RefreshState.Drag
-            AnimatedVisibility(visible = showTipsText) {
+            val showTipsText = isReachBounds && state.refreshState == RefreshState.Drag
+            if (showTipsText) {
                 Text(text = "Try release drag.")
             }
 
@@ -150,7 +151,7 @@ private fun StartIndicatorContent(containerState: CustomizedIndicatorContainerSt
                 modifier = Modifier
                     .onSizeChanged { indicatorSize = it }
                     .graphicsLayer {
-                        alpha = if (containerState.isReachBounds) 0f else 1f
+                        alpha = if (isReachBounds) 0f else 1f
                     },
                 configRefreshTriggerDistance = false,
             )
@@ -160,8 +161,8 @@ private fun StartIndicatorContent(containerState: CustomizedIndicatorContainerSt
     val indicatorHeight = indicatorSize.height
     if (indicatorHeight > 0) {
         LaunchedEffect(indicatorHeight) {
-            containerState.setRefreshingDistance(indicatorHeight)
-            containerState.setRefreshTriggerDistance(indicatorHeight)
+            containerApi.setRefreshingDistance(indicatorHeight)
+            containerApi.setRefreshTriggerDistance(indicatorHeight)
         }
     }
 }
