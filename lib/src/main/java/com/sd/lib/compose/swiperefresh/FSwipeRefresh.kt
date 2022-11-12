@@ -17,7 +17,8 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.zIndex
 import com.sd.lib.compose.swiperefresh.indicator.DefaultSwipeRefreshIndicator
-import com.sd.lib.compose.swiperefresh.indicator.FSwipeRefreshIndicator
+import com.sd.lib.compose.swiperefresh.indicator.FSwipeRefreshEndIndicator
+import com.sd.lib.compose.swiperefresh.indicator.FSwipeRefreshStartIndicator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -44,10 +45,12 @@ fun FSwipeRefresh(
     indicatorStart: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
     indicatorEnd: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
     indicator: @Composable () -> Unit = {
-        FSwipeRefreshIndicator(
-            start = indicatorStart,
-            end = indicatorEnd
-        )
+        FSwipeRefreshStartIndicator {
+            indicatorStart()
+        }
+        FSwipeRefreshEndIndicator {
+            indicatorEnd()
+        }
     },
     content: @Composable () -> Unit,
 ) {

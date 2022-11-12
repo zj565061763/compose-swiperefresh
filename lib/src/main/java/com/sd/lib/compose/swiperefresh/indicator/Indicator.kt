@@ -5,15 +5,13 @@ import androidx.compose.runtime.remember
 import com.sd.lib.compose.swiperefresh.*
 
 /**
- * The indicator of SwipeRefresh including the start and end direction.
+ * Indicator for the start direction.
  */
 @Composable
-fun FSwipeRefreshIndicator(
-    start: @Composable () -> Unit,
-    end: @Composable () -> Unit,
+fun FSwipeRefreshStartIndicator(
+    indicator: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
 ) {
     val state = checkNotNull(LocalFSwipeRefreshState.current)
-
 
     val startContainerState = when (state.startIndicatorMode) {
         IndicatorMode.Above -> rememberIndicatorContainerStateAbove(state, RefreshDirection.Start)
@@ -21,10 +19,21 @@ fun FSwipeRefreshIndicator(
         IndicatorMode.Below -> rememberIndicatorContainerStateBelow(state, RefreshDirection.Start)
         IndicatorMode.Invisible -> rememberIndicatorContainerStateInvisible(state, RefreshDirection.Start)
     }
-    FSwipeRefreshIndicatorContainer(startContainerState) {
-        start()
-    }
 
+    FSwipeRefreshIndicatorContainer(startContainerState) {
+        indicator()
+    }
+}
+
+
+/**
+ * Indicator for the end direction.
+ */
+@Composable
+fun FSwipeRefreshEndIndicator(
+    indicator: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
+) {
+    val state = checkNotNull(LocalFSwipeRefreshState.current)
 
     val endContainerState = when (state.endIndicatorMode) {
         IndicatorMode.Above -> rememberIndicatorContainerStateAbove(state, RefreshDirection.End)
@@ -32,8 +41,9 @@ fun FSwipeRefreshIndicator(
         IndicatorMode.Below -> rememberIndicatorContainerStateBelow(state, RefreshDirection.End)
         IndicatorMode.Invisible -> rememberIndicatorContainerStateInvisible(state, RefreshDirection.End)
     }
+
     FSwipeRefreshIndicatorContainer(endContainerState) {
-        end()
+        indicator()
     }
 }
 
