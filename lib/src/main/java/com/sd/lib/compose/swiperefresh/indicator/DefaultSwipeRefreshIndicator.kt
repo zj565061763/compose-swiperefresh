@@ -7,7 +7,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.sd.lib.compose.swiperefresh.*
 import kotlin.math.roundToInt
@@ -27,10 +29,12 @@ fun DefaultSwipeRefreshIndicator(
     spinnerSize: Dp = size.times(0.5f),
     padding: PaddingValues = PaddingValues(5.dp),
     configRefreshTriggerDistance: Boolean = true,
+    configIgnoredProgressDistance: Boolean = true,
 ) {
-    val swipeRefreshState = checkNotNull(LocalFSwipeRefreshState.current)
+    val state = checkNotNull(LocalFSwipeRefreshState.current)
     val containerApi = checkNotNull(LocalContainerApiForIndicator.current)
 
+    var indicatorSize by remember { mutableStateOf(IntSize.Zero) }
 
     if (configRefreshTriggerDistance) {
         val refreshingDistance = containerApi.refreshingDistance
@@ -48,13 +52,17 @@ fun DefaultSwipeRefreshIndicator(
     }
 
 
-    // Configure the ignored progress distance.
-    val containerSize = containerApi.containerSize
-    DisposableEffect(containerSize) {
-        val ignoredDistance = containerSize / 2f
-        containerApi.setIgnoredProgressDistance(ignoredDistance.roundToInt())
-        onDispose {
-            containerApi.setIgnoredProgressDistance(null)
+    if (configIgnoredProgressDistance) {
+        val orientationSize = when (state.orientationMode) {
+            OrientationMode.Vertical -> indicatorSize.height
+            OrientationMode.Horizontal -> indicatorSize.width
+        }
+        DisposableEffect(orientationSize) {
+            val ignoredDistance = orientationSize / 2f
+            containerApi.setIgnoredProgressDistance(ignoredDistance.roundToInt())
+            onDispose {
+                containerApi.setIgnoredProgressDistance(null)
+            }
         }
     }
 
@@ -69,8 +77,8 @@ fun DefaultSwipeRefreshIndicator(
             containerApi.unregisterHideRefreshing(callback)
         }
     }
-    LaunchedEffect(swipeRefreshState) {
-        snapshotFlow { swipeRefreshState.refreshState }
+    LaunchedEffect(state) {
+        snapshotFlow { state.refreshState }
             .collect {
                 if (it == RefreshState.None) {
                     animScale.snapTo(1f)
@@ -79,15 +87,15 @@ fun DefaultSwipeRefreshIndicator(
     }
 
 
-    val rotation = when (swipeRefreshState.orientationMode) {
+    val rotation = when (state.orientationMode) {
         OrientationMode.Vertical -> {
-            when (swipeRefreshState.currentDirection) {
+            when (state.currentDirection) {
                 RefreshDirection.End -> 180f
                 else -> 0f
             }
         }
         OrientationMode.Horizontal -> {
-            when (swipeRefreshState.currentDirection) {
+            when (state.currentDirection) {
                 RefreshDirection.End -> 90f
                 RefreshDirection.Start -> 270f
                 else -> 0f
@@ -97,13 +105,17 @@ fun DefaultSwipeRefreshIndicator(
 
 
     GoogleSwipeRefreshIndicator(
-        isRefreshing = swipeRefreshState.isRefreshing,
+        isRefreshing = state.isRefreshing,
         progress = containerApi.progress,
-        modifier = modifier.graphicsLayer {
-            scaleX = animScale.value
-            scaleY = animScale.value
-            rotationZ = rotation
-        },
+        modifier = modifier
+            .graphicsLayer {
+                scaleX = animScale.value
+                scaleY = animScale.value
+                rotationZ = rotation
+            }
+            .onSizeChanged {
+                indicatorSize = it
+            },
         backgroundColor = backgroundColor,
         contentColor = contentColor,
         strokeWidth = strokeWidth,
