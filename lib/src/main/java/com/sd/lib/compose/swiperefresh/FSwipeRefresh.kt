@@ -214,7 +214,7 @@ class FSwipeRefreshState internal constructor(
 
     internal var _orientationMode by Delegates.observable(orientationMode) { _, oldValue, newValue ->
         if (oldValue != newValue) {
-            reset(newValue)
+            reset()
         }
     }
     internal var _onRefreshStart by mutableStateOf<(() -> Unit)?>(null)
@@ -442,7 +442,7 @@ class FSwipeRefreshState internal constructor(
         _animOffset.animateTo(offset) { _internalOffset = value }
     }
 
-    private fun reset(mode: OrientationMode) {
+    private fun reset() {
         _resetInProgress = true
         cancelContainerJobs()
 
@@ -452,7 +452,7 @@ class FSwipeRefreshState internal constructor(
                 resetOffset(false)
             } finally {
                 _orientationHandler = null
-                orientationMode = mode
+                orientationMode = _orientationMode
                 _resetInProgress = false
             }
         }
