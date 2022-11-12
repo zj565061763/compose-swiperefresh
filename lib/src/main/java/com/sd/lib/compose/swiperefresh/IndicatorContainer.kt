@@ -10,9 +10,6 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 
-val LocalIndicatorContainerState = staticCompositionLocalOf<IndicatorContainerState?> { null }
-val LocalContainerApiForIndicator = staticCompositionLocalOf<ContainerApiForIndicator?> { null }
-
 /**
  * Default indicator container.
  */

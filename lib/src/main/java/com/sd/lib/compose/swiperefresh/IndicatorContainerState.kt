@@ -1,8 +1,11 @@
 package com.sd.lib.compose.swiperefresh
 
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 
+val LocalIndicatorContainerState = staticCompositionLocalOf<IndicatorContainerState?> { null }
+val LocalContainerApiForIndicator = staticCompositionLocalOf<ContainerApiForIndicator?> { null }
 
 interface IndicatorContainerState {
     /**
