@@ -4,9 +4,9 @@
 
 # Sample
 
-|                               Vertical                               |                              Horizontal                              |
-|:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|
-| <img src="https://thumbsnap.com/i/dzmQ8ztV.gif?1112" width="240px"/> | <img src="https://thumbsnap.com/i/mm53qzRT.gif?1112" width="240px"/> | 
+|                               Vertical                               |                              Horizontal                              |                           Custom behavior                            |
+|:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|
+| <img src="https://thumbsnap.com/i/dzmQ8ztV.gif?1112" width="240px"/> | <img src="https://thumbsnap.com/i/mm53qzRT.gif?1112" width="240px"/> | <img src="https://thumbsnap.com/i/z2YcGXim.gif?1112" width="240px"/> |
 
 ```kotlin
 // Your ui state.
@@ -140,3 +140,8 @@ for more information.
 In `IndicatorMode.Invisible` mode, `onRefreshXXX` will be called when the scrollable layout is scrolled to the bounds, you should add a refreshing indicator to scrollable layout manually.
 [click here](https://github.com/zj565061763/compose-swiperefresh/blob/master/app/src/main/java/com/sd/demo/compose_swiperefresh/SampleIndicatorModeActivity.kt)
 for details.
+
+Here is an example of how to customize the indicator mode behavior,
+[click here](https://github.com/zj565061763/compose-swiperefresh/blob/master/app/src/main/java/com/sd/demo/compose_swiperefresh/SampleCustomModeActivity.kt)
+for details.
+![](https://thumbsnap.com/i/z2YcGXim.gif?1112)
