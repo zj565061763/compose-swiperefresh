@@ -215,7 +215,6 @@ abstract class DraggableIndicatorContainerState(
         if (available == 0f) return 0f
         val swipeRefreshApi = swipeRefreshApi ?: return 0f
 
-        if (refreshingDistance <= 0) return 0f
         val maxDragDistance = maxDragDistance
         if (maxDragDistance <= 0) return 0f
 
@@ -255,7 +254,7 @@ abstract class DraggableIndicatorContainerState(
     override suspend fun showRefreshing(): Boolean {
         val swipeRefreshApi = swipeRefreshApi ?: return false
         val distance = refreshingDistance
-        if (distance <= 0) return false
+        if (distance < 0) return false
 
         val targetOffset = if (direction == RefreshDirection.Start) distance else -distance
         swipeRefreshApi.animateToOffset(targetOffset.toFloat(), RefreshState.Refreshing)
