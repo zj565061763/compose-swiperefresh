@@ -262,7 +262,11 @@ class FSwipeRefreshState internal constructor(
         }
     }
 
-    private var _orientationHandler = createOrientationHandler(_orientationMode)
+    private var _orientationHandler: OrientationHandler? = null
+    private val orientationHandler: OrientationHandler
+        get() = _orientationHandler ?: createOrientationHandler().also {
+            _orientationHandler = it
+        }
 
     /**
      * Synchronize ui state in the start direction, 'onRefreshStart' this will not be called when [refresh] is true.
@@ -298,17 +302,17 @@ class FSwipeRefreshState internal constructor(
 
     internal fun handlePreScroll(available: Offset, source: NestedScrollSource): Offset {
         if (_resetInProgress) return Offset.Zero
-        return _orientationHandler.handlePreScroll(available, source)
+        return orientationHandler.handlePreScroll(available, source)
     }
 
     internal fun handlePostScroll(available: Offset, source: NestedScrollSource): Offset {
         if (_resetInProgress) return Offset.Zero
-        return _orientationHandler.handlePostScroll(available, source)
+        return orientationHandler.handlePostScroll(available, source)
     }
 
     internal fun handleRelease(): Boolean {
         if (_resetInProgress) return false
-        return _orientationHandler.handleRelease().also {
+        return orientationHandler.handleRelease().also {
             if (_refreshState == RefreshState.Drag && _internalOffset == 0f) {
                 _refreshState = RefreshState.None
             }
@@ -447,17 +451,15 @@ class FSwipeRefreshState internal constructor(
                 currentDirection?.containerApi()?.hideRefreshing(false)
                 resetOffset(false)
             } finally {
-                if (orientationMode != mode) {
-                    orientationMode = mode
-                    _orientationHandler = createOrientationHandler(mode)
-                }
+                _orientationHandler = null
+                orientationMode = mode
                 _resetInProgress = false
             }
         }
     }
 
-    private fun createOrientationHandler(mode: OrientationMode): OrientationHandler {
-        return when (mode) {
+    private fun createOrientationHandler(): OrientationHandler {
+        return when (_orientationMode) {
             OrientationMode.Vertical -> VerticalHandler()
             OrientationMode.Horizontal -> HorizontalHandler()
         }
