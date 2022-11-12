@@ -32,6 +32,7 @@
         <activity android:name=".SampleHorizontalActivity" />
         <activity android:name=".SampleInvisibleModeActivity" />
         <activity android:name=".SampleCustomStyleActivity" />
+        <activity android:name=".SampleCustomModeActivity" />
 
     </application>
 

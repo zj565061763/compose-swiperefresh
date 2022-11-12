@@ -67,6 +67,12 @@ private fun Content(
         ) {
             Text(text = "Custom style")
         }
+
+        Button(
+            onClick = { activity.startActivity(Intent(activity, SampleCustomModeActivity::class.java)) }
+        ) {
+            Text(text = "Custom mode")
+        }
     }
 }
 
