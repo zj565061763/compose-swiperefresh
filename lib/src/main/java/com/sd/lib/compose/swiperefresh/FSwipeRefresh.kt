@@ -17,8 +17,6 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.zIndex
 import com.sd.lib.compose.swiperefresh.indicator.DefaultSwipeRefreshIndicator
-import com.sd.lib.compose.swiperefresh.indicator.EndIndicatorContainer
-import com.sd.lib.compose.swiperefresh.indicator.StartIndicatorContainer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
