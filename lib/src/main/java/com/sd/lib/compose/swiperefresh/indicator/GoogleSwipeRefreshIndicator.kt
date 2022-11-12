@@ -101,10 +101,11 @@ private fun PaddingSizedBox(
     content: @Composable () -> Unit,
 ) {
     Box(
-        modifier = Modifier.padding(padding)
+        modifier = modifier.padding(padding),
+        contentAlignment = Alignment.Center,
     ) {
         Box(
-            modifier = modifier.size(size),
+            modifier = Modifier.size(size),
             contentAlignment = Alignment.Center
         ) {
             content()
