@@ -9,18 +9,19 @@ import com.sd.lib.compose.swiperefresh.*
  */
 @Composable
 fun FSwipeRefreshStartIndicator(
+    containerState: IndicatorContainerState? = null,
     indicator: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
 ) {
     val state = checkNotNull(LocalFSwipeRefreshState.current)
 
-    val startContainerState = when (state.startIndicatorMode) {
+    val containerState = containerState ?: when (state.startIndicatorMode) {
         IndicatorMode.Above -> rememberIndicatorContainerStateAbove(state, RefreshDirection.Start)
         IndicatorMode.Drag -> rememberIndicatorContainerStateDrag(state, RefreshDirection.Start)
         IndicatorMode.Below -> rememberIndicatorContainerStateBelow(state, RefreshDirection.Start)
         IndicatorMode.Invisible -> rememberIndicatorContainerStateInvisible(state, RefreshDirection.Start)
     }
 
-    FSwipeRefreshIndicatorContainer(startContainerState) {
+    FSwipeRefreshIndicatorContainer(containerState) {
         indicator()
     }
 }
@@ -31,18 +32,19 @@ fun FSwipeRefreshStartIndicator(
  */
 @Composable
 fun FSwipeRefreshEndIndicator(
+    containerState: IndicatorContainerState? = null,
     indicator: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
 ) {
     val state = checkNotNull(LocalFSwipeRefreshState.current)
 
-    val endContainerState = when (state.endIndicatorMode) {
+    val containerState = containerState ?: when (state.endIndicatorMode) {
         IndicatorMode.Above -> rememberIndicatorContainerStateAbove(state, RefreshDirection.End)
         IndicatorMode.Drag -> rememberIndicatorContainerStateDrag(state, RefreshDirection.End)
         IndicatorMode.Below -> rememberIndicatorContainerStateBelow(state, RefreshDirection.End)
         IndicatorMode.Invisible -> rememberIndicatorContainerStateInvisible(state, RefreshDirection.End)
     }
 
-    FSwipeRefreshIndicatorContainer(endContainerState) {
+    FSwipeRefreshIndicatorContainer(containerState) {
         indicator()
     }
 }
