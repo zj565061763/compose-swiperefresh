@@ -79,7 +79,7 @@ abstract class ExpandedIndicatorContainerState(
     }
 
     override val refreshTriggerDistance: Int by derivedStateOf {
-        _refreshTriggerDistance ?: containerSize
+        _refreshTriggerDistance ?: refreshingDistance
     }
 
     override val maxDragDistance: Int by derivedStateOf {
