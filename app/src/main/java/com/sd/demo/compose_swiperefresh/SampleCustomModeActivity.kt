@@ -153,7 +153,6 @@ private fun StartIndicatorContent(isReachBounds: Boolean) {
                     .graphicsLayer {
                         alpha = if (isReachBounds) 0f else 1f
                     },
-                configRefreshTriggerDistance = false,
             )
         }
     }
@@ -162,7 +161,6 @@ private fun StartIndicatorContent(isReachBounds: Boolean) {
     if (indicatorHeight > 0) {
         LaunchedEffect(indicatorHeight) {
             containerApi.setRefreshingDistance(indicatorHeight)
-            containerApi.setRefreshTriggerDistance(indicatorHeight)
         }
     }
 }
