@@ -59,8 +59,8 @@ abstract class ExpandedIndicatorContainerState(
     private val _callbackHideRefreshing: MutableMap<suspend () -> Unit, String> = ConcurrentHashMap()
 
     private val _stateProgress = derivedStateOf {
-        val refreshingDistance = refreshingDistance
-        if (refreshingDistance <= 0) {
+        val distance = refreshTriggerDistance
+        if (distance <= 0) {
             0f
         } else {
             when {
@@ -69,7 +69,7 @@ abstract class ExpandedIndicatorContainerState(
                     calculateProgress(
                         ignored = (_ignoredProgressDistance ?: 0).toFloat(),
                         distance = swipeRefreshState.sharedOffset.absoluteValue,
-                        total = maxOf(refreshingDistance, refreshTriggerDistance).toFloat()
+                        total = distance.toFloat()
                     )
                 }
             }
@@ -81,7 +81,7 @@ abstract class ExpandedIndicatorContainerState(
     }
 
     override val refreshTriggerDistance: Int by derivedStateOf {
-        _refreshTriggerDistance ?: refreshingDistance
+        _refreshTriggerDistance ?: containerSize
     }
 
     override val maxDragDistance: Int by derivedStateOf {
