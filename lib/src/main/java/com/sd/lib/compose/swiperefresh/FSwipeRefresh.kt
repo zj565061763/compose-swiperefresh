@@ -357,11 +357,11 @@ class FSwipeRefreshState internal constructor(
             }
 
             override fun hasCallback(): Boolean {
-                return currentDirection?.refreshCallback() != null
+                return refreshDirection.refreshCallback() != null
             }
 
             override fun notifyCallback() {
-                currentDirection?.refreshCallback()?.invoke()
+                refreshDirection.refreshCallback()?.invoke()
             }
 
             override fun launch(cancellable: Boolean, block: suspend CoroutineScope.() -> Unit) {
