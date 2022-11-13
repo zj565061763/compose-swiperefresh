@@ -77,7 +77,7 @@ private fun CustomizedIndicator() {
     val containerApi = checkNotNull(LocalContainerApiForIndicator.current)
 
     Box(
-        modifier = Modifier.fillMaxWidth().height(50.dp),
+        modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
 
