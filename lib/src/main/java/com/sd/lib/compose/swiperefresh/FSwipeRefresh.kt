@@ -100,20 +100,14 @@ private fun SwipeRefresh(
             content()
         }
 
-        val currentIndicatorMode = when (state.currentDirection) {
-            RefreshDirection.Start -> state.startIndicatorMode
-            RefreshDirection.End -> state.endIndicatorMode
+        val containerApi = when (state.currentDirection) {
+            RefreshDirection.Start -> state.startContainerApi
+            RefreshDirection.End -> state.endContainerApi
             else -> null
         }
 
-        val indicatorZIndex = if (currentIndicatorMode == IndicatorMode.Below) {
-            -1f
-        } else {
-            1f
-        }
-
         Box(
-            modifier = Modifier.zIndex(indicatorZIndex)
+            modifier = Modifier.zIndex(containerApi?.zIndex ?: 1f)
         ) {
             CompositionLocalProvider(LocalFSwipeRefreshState provides state) {
                 indicator()

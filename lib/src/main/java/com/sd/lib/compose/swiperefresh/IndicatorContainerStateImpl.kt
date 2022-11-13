@@ -127,6 +127,9 @@ abstract class ExpandedIndicatorContainerState(
     val swipeRefreshApi: SwipeRefreshApiForContainer?
         get() = _swipeRefreshApi
 
+    override val zIndex: Float
+        get() = 1f
+
     @CallSuper
     override fun onAttach(api: SwipeRefreshApiForContainer) {
         _swipeRefreshApi = api
@@ -328,6 +331,9 @@ open class IndicatorContainerStateBelow(
     swipeRefreshState: FSwipeRefreshState,
     direction: RefreshDirection,
 ) : DraggableIndicatorContainerState(swipeRefreshState, direction) {
+
+    override val zIndex: Float
+        get() = -1f
 
     override val offset: Int
         get() {

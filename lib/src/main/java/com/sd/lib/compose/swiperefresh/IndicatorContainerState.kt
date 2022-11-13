@@ -1,8 +1,10 @@
 package com.sd.lib.compose.swiperefresh
 
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.zIndex
 
 val LocalIndicatorContainerState = staticCompositionLocalOf<IndicatorContainerState?> { null }
 val LocalContainerApiForIndicator = staticCompositionLocalOf<ContainerApiForIndicator?> { null }
@@ -83,6 +85,11 @@ interface ContainerApiForIndicator {
 
 
 interface ContainerApiForSwipeRefresh {
+    /**
+     * [Modifier.zIndex]
+     */
+    val zIndex: Float
+
     /**
      * Called when this api is attached.
      * See [FSwipeRefreshState.startContainerApi] [FSwipeRefreshState.endContainerApi]
