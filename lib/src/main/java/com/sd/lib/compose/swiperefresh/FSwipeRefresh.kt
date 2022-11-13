@@ -206,8 +206,8 @@ class FSwipeRefreshState internal constructor(
             reset()
         }
     }
-    internal var _onRefreshStart by mutableStateOf<(() -> Unit)?>(null)
-    internal var _onRefreshEnd by mutableStateOf<(() -> Unit)?>(null)
+    internal var _onRefreshStart: (() -> Unit)? = null
+    internal var _onRefreshEnd: (() -> Unit)? = null
 
 
     private val _containerJobs: MutableMap<Job, String> = ConcurrentHashMap()
