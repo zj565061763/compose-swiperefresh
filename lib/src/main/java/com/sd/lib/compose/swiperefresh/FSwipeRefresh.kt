@@ -100,7 +100,13 @@ private fun SwipeRefresh(
             content()
         }
 
-        val indicatorZIndex = if (state.currentIndicatorMode == IndicatorMode.Below) {
+        val currentIndicatorMode = when (state.currentDirection) {
+            RefreshDirection.Start -> state.startIndicatorMode
+            RefreshDirection.End -> state.endIndicatorMode
+            else -> null
+        }
+
+        val indicatorZIndex = if (currentIndicatorMode == IndicatorMode.Below) {
             -1f
         } else {
             1f
@@ -191,14 +197,6 @@ class FSwipeRefreshState internal constructor(
      * Container api for the end direction.
      */
     var endContainerApi: ContainerApiForSwipeRefresh? by createContainerApiDelegate(RefreshDirection.End)
-
-    internal val currentIndicatorMode by derivedStateOf {
-        when (currentDirection) {
-            RefreshDirection.Start -> startIndicatorMode
-            RefreshDirection.End -> startIndicatorMode
-            else -> null
-        }
-    }
 
     @Volatile
     private var _resetInProgress = false
