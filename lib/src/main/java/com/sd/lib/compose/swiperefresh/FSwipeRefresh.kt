@@ -81,36 +81,21 @@ private fun SwipeRefresh(
     state._onRefreshEnd = onRefreshEnd
     state.layoutSize = layoutSize
 
-    val nestedScrollConnection = remember(state) {
-        object : NestedScrollConnection {
-            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                return state.handlePreScroll(available, source)
-            }
-
-            override fun onPostScroll(consumed: Offset, available: Offset, source: NestedScrollSource): Offset {
-                return state.handlePostScroll(available, source)
-            }
-
-            override suspend fun onPreFling(available: Velocity): Velocity {
-                return state.handlePreFling(available)
-            }
-        }
-    }
-
     Box(
         modifier = modifier
-            .zIndex(0f)
-            .nestedScroll(nestedScrollConnection)
+            .nestedScroll(state.nestedScrollConnection)
             .onSizeChanged { layoutSize = it }
             .clipToBounds()
     ) {
         Box(
-            modifier = Modifier.offset {
-                when (state.orientationMode) {
-                    OrientationMode.Vertical -> IntOffset(0, state.contentOffset.roundToInt())
-                    OrientationMode.Horizontal -> IntOffset(state.contentOffset.roundToInt(), 0)
+            modifier = Modifier
+                .zIndex(0f)
+                .offset {
+                    when (state.orientationMode) {
+                        OrientationMode.Vertical -> IntOffset(0, state.contentOffset.roundToInt())
+                        OrientationMode.Horizontal -> IntOffset(state.contentOffset.roundToInt(), 0)
+                    }
                 }
-            }
         ) {
             content()
         }
@@ -304,17 +289,31 @@ class FSwipeRefreshState internal constructor(
         }
     }
 
-    internal fun handlePreScroll(available: Offset, source: NestedScrollSource): Offset {
+    internal val nestedScrollConnection = object : NestedScrollConnection {
+        override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+            return this@FSwipeRefreshState.handlePreScroll(available, source)
+        }
+
+        override fun onPostScroll(consumed: Offset, available: Offset, source: NestedScrollSource): Offset {
+            return this@FSwipeRefreshState.handlePostScroll(available, source)
+        }
+
+        override suspend fun onPreFling(available: Velocity): Velocity {
+            return this@FSwipeRefreshState.handlePreFling(available)
+        }
+    }
+
+    private fun handlePreScroll(available: Offset, source: NestedScrollSource): Offset {
         if (_resetInProgress) return Offset.Zero
         return orientationHandler.handlePreScroll(available, source)
     }
 
-    internal fun handlePostScroll(available: Offset, source: NestedScrollSource): Offset {
+    private fun handlePostScroll(available: Offset, source: NestedScrollSource): Offset {
         if (_resetInProgress) return Offset.Zero
         return orientationHandler.handlePostScroll(available, source)
     }
 
-    internal fun handlePreFling(available: Velocity): Velocity {
+    private fun handlePreFling(available: Velocity): Velocity {
         if (_resetInProgress) return Velocity.Zero
         return orientationHandler.handlePreFling(available).also {
             if (_refreshState == RefreshState.Drag && _internalOffset == 0f) {
