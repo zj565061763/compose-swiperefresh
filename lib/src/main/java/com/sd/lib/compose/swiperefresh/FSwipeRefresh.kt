@@ -216,14 +216,23 @@ class FSwipeRefreshState internal constructor(
 
     private var _internalOffset = 0f
         set(value) {
-            val safeValue = when (currentDirection) {
-                RefreshDirection.Start -> value.coerceAtLeast(0f)
-                RefreshDirection.End -> value.coerceAtMost(0f)
-                else -> 0f
-            }
-            if (field != safeValue) {
-                field = safeValue
-                sharedOffset = safeValue
+            val oldValue = field
+            val newValue = safeOffset(value)
+            if (oldValue != newValue) {
+                field = newValue
+
+                if (oldValue == 0f && newValue != 0f) {
+                    // Set the direction first.
+                    if (currentDirection == null) {
+                        currentDirection = if (newValue > 0) RefreshDirection.Start else RefreshDirection.End
+                    }
+
+                    if (_refreshState == RefreshState.None) {
+                        _refreshState = RefreshState.Drag
+                    }
+                }
+
+                sharedOffset = newValue
                 currentDirection?.containerApi()?.onOffsetChanged()
             }
         }
@@ -320,6 +329,14 @@ class FSwipeRefreshState internal constructor(
         }
     }
 
+    private fun safeOffset(value: Float): Float {
+        return when (currentDirection) {
+            RefreshDirection.Start -> value.coerceAtLeast(0f)
+            RefreshDirection.End -> value.coerceAtMost(0f)
+            else -> value
+        }
+    }
+
     private fun createContainerApiDelegate(direction: RefreshDirection): ReadWriteProperty<Any?, ContainerApiForSwipeRefresh?> {
         return Delegates.observable(null) { _, oldValue, newValue ->
             if (oldValue != newValue) {
@@ -331,24 +348,12 @@ class FSwipeRefreshState internal constructor(
 
     private fun createSwipeRefreshApiForContainer(refreshDirection: RefreshDirection): SwipeRefreshApiForContainer {
         return object : SwipeRefreshApiForContainer {
-            override fun setDirection() {
-                currentDirection?.let { current ->
-                    if (current != refreshDirection) {
-                        error("Can not set direction $refreshDirection, current direction $current .")
-                    }
-                }
-                currentDirection = refreshDirection
-            }
 
             override fun appendOffset(offset: Float) {
-                if (currentDirection != refreshDirection) return
+                val current = currentDirection
+                if (current != null && current != refreshDirection) return
 
-                val oldOffset = _internalOffset
                 _internalOffset += offset
-
-                if (oldOffset == 0f && oldOffset != _internalOffset) {
-                    _refreshState = RefreshState.Drag
-                }
             }
 
             override fun setContentOffset(offset: Float) {
@@ -590,8 +595,6 @@ data class RefreshStateRecord internal constructor(
 )
 
 interface SwipeRefreshApiForContainer {
-    fun setDirection()
-
     fun appendOffset(offset: Float)
 
     fun setContentOffset(offset: Float)
