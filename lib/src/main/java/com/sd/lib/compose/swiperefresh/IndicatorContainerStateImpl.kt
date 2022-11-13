@@ -211,7 +211,8 @@ abstract class DraggableIndicatorContainerState(
         if (maxDragDistance <= 0) return 0f
 
         if (swipeRefreshState.refreshState == RefreshState.Drag && source == NestedScrollSource.Drag) {
-            swipeRefreshApi.appendOffset(transformOffset(available, maxDragDistance))
+            val offset = transformOffset(available, maxDragDistance)
+            swipeRefreshApi.appendOffset(offset)
             return available
         }
         return 0f
@@ -228,7 +229,8 @@ abstract class DraggableIndicatorContainerState(
             val offsetDirection = if (available > 0) RefreshDirection.Start else RefreshDirection.End
             if (offsetDirection == direction) {
                 swipeRefreshApi.setDirection()
-                swipeRefreshApi.appendOffset(transformOffset(available, maxDragDistance))
+                val offset = transformOffset(available, maxDragDistance)
+                swipeRefreshApi.appendOffset(offset)
                 return available
             }
         }
