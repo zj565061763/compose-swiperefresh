@@ -18,13 +18,15 @@ abstract class BaseIndicatorContainerState(
 ) : IndicatorContainerState {
 
     private val _stateContainerSize = mutableStateOf(0)
+
     private val _stateDefaultOffset = derivedStateOf {
-        if (direction == RefreshDirection.Start) {
-            -_stateContainerSize.value
-        } else {
-            when (swipeRefreshState.orientationMode) {
-                OrientationMode.Vertical -> swipeRefreshState.layoutSize.height
-                OrientationMode.Horizontal -> swipeRefreshState.layoutSize.width
+        when (direction) {
+            RefreshDirection.Start -> -_stateContainerSize.value
+            RefreshDirection.End -> {
+                when (swipeRefreshState.orientationMode) {
+                    OrientationMode.Vertical -> swipeRefreshState.layoutSize.height
+                    OrientationMode.Horizontal -> swipeRefreshState.layoutSize.width
+                }
             }
         }
     }
