@@ -406,7 +406,7 @@ class FSwipeRefreshState internal constructor(
     }
 
     private suspend fun hideRefreshing(direction: RefreshDirection, anim: Boolean) {
-        if (isRefreshing && direction == currentDirection) {
+        if (isRefreshing && currentDirection == direction) {
             cancelContainerJobs()
             hideRefreshingOrResetOffset(direction, anim)
         }
