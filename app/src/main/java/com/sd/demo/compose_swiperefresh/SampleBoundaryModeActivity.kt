@@ -42,7 +42,7 @@ private fun Sample(
     val uiState by viewModel.uiState.collectAsState()
 
     val state = rememberFSwipeRefreshState().apply {
-        // Set 'Invisible' mode for the end direction.
+        // Set 'Boundary' mode for the end direction.
         this.endIndicatorMode = IndicatorMode.Boundary
     }
 

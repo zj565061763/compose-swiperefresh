@@ -106,7 +106,7 @@ Well that is it, if you want to learn more about how to customize the indicator 
 |:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|
 | <img src="https://thumbsnap.com/i/oqvD6znE.gif?1112" width="320px"/> | <img src="https://thumbsnap.com/i/dKZ7i7dt.gif?1112" width="320px"/> |
 
-|                                Below                                 |                              Invisible                               |  
+|                                Below                                 |                               Boundary                               |  
 |:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|
 | <img src="https://thumbsnap.com/i/dmKAyDcX.gif?1112" width="320px"/> | <img src="https://thumbsnap.com/i/MrdmMTgY.gif?1110" width="320px"/> |
 
@@ -136,10 +136,6 @@ and
 for more information.
 
 <br>
-
-In `IndicatorMode.Invisible` mode, `onRefreshXXX` will be called when the scrollable layout is scrolled to the bounds, you should add a refreshing indicator to scrollable layout manually.
-[click here](https://github.com/zj565061763/compose-swiperefresh/blob/master/app/src/main/java/com/sd/demo/compose_swiperefresh/SampleIndicatorModeActivity.kt)
-for details.
 
 Here is an example of how to customize the indicator mode behavior,
 [click here](https://github.com/zj565061763/compose-swiperefresh/blob/master/app/src/main/java/com/sd/demo/compose_swiperefresh/SampleCustomModeActivity.kt)
