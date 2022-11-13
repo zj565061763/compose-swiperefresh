@@ -16,9 +16,12 @@ import androidx.constraintlayout.compose.Dimension
 
 
 @Composable
-fun ColumnView(list: List<String>) {
+fun ColumnView(
+    list: List<String>,
+    modifier: Modifier = Modifier,
+) {
     LazyColumn(
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         items(list) { item ->
             ColumnViewItem(text = item)
@@ -28,8 +31,8 @@ fun ColumnView(list: List<String>) {
 
 @Composable
 fun ColumnViewItem(
-    modifier: Modifier = Modifier,
     text: String,
+    modifier: Modifier = Modifier,
 ) {
     ConstraintLayout(
         modifier = modifier
@@ -60,9 +63,12 @@ fun ColumnViewItem(
 
 
 @Composable
-fun RowView(list: List<String>) {
+fun RowView(
+    list: List<String>,
+    modifier: Modifier = Modifier,
+) {
     LazyRow(
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         items(list) { item ->
             RowViewItem(text = item)
@@ -72,8 +78,8 @@ fun RowView(list: List<String>) {
 
 @Composable
 fun RowViewItem(
-    modifier: Modifier = Modifier,
     text: String,
+    modifier: Modifier = Modifier,
 ) {
     ConstraintLayout(
         modifier = modifier

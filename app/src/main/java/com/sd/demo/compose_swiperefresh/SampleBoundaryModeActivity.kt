@@ -68,7 +68,7 @@ private fun Sample(
         },
         modifier = Modifier.fillMaxWidth()
     ) {
-        ListView(list = uiState.list, isLoadingMore = uiState.isLoadingMore)
+        ListView(list = uiState.list)
     }
 
     LaunchedEffect(state) {
@@ -80,7 +80,7 @@ private fun Sample(
 }
 
 @Composable
-private fun ListView(list: List<String>, isLoadingMore: Boolean) {
+private fun ListView(list: List<String>) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth()
     ) {
