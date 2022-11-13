@@ -179,8 +179,12 @@ abstract class ExpandedIndicatorContainerState(
 
     companion object {
         private fun calculateProgress(ignored: Float, distance: Float, total: Float): Float {
-            if (total <= 0f) return 0f
-            if (ignored <= 0f) return distance / total
+            require(ignored >= 0f)
+            require(distance >= 0f)
+            require(total >= 0f)
+
+            if (total == 0f) return 0f
+            if (ignored == 0f) return distance / total
 
             val newDistance = distance - ignored
             if (newDistance <= 0f) return 0f
