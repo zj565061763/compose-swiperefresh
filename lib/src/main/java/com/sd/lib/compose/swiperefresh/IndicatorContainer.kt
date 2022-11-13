@@ -27,7 +27,7 @@ fun StartIndicatorContainer(
         IndicatorMode.Above -> rememberIndicatorContainerStateAbove(swipeState, RefreshDirection.Start)
         IndicatorMode.Drag -> rememberIndicatorContainerStateDrag(swipeState, RefreshDirection.Start)
         IndicatorMode.Below -> rememberIndicatorContainerStateBelow(swipeState, RefreshDirection.Start)
-        IndicatorMode.Invisible -> rememberIndicatorContainerStateInvisible(swipeState, RefreshDirection.Start)
+        IndicatorMode.Boundary -> rememberIndicatorContainerStateBoundary(swipeState, RefreshDirection.Start)
     }
 
     DefaultIndicatorContainer(
@@ -54,7 +54,7 @@ fun EndIndicatorContainer(
         IndicatorMode.Above -> rememberIndicatorContainerStateAbove(swipeState, RefreshDirection.End)
         IndicatorMode.Drag -> rememberIndicatorContainerStateDrag(swipeState, RefreshDirection.End)
         IndicatorMode.Below -> rememberIndicatorContainerStateBelow(swipeState, RefreshDirection.End)
-        IndicatorMode.Invisible -> rememberIndicatorContainerStateInvisible(swipeState, RefreshDirection.End)
+        IndicatorMode.Boundary -> rememberIndicatorContainerStateBoundary(swipeState, RefreshDirection.End)
     }
 
     DefaultIndicatorContainer(
@@ -106,15 +106,15 @@ fun rememberIndicatorContainerStateBelow(
 }
 
 /**
- * [IndicatorContainerState] for [IndicatorMode.Invisible].
+ * [IndicatorContainerState] for [IndicatorMode.Boundary].
  */
 @Composable
-fun rememberIndicatorContainerStateInvisible(
+fun rememberIndicatorContainerStateBoundary(
     swipeRefreshState: FSwipeRefreshState,
     direction: RefreshDirection,
 ): IndicatorContainerState {
     return remember(swipeRefreshState, direction) {
-        IndicatorContainerStateInvisible(swipeRefreshState, direction)
+        IndicatorContainerStateBoundary(swipeRefreshState, direction)
     }
 }
 

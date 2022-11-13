@@ -57,9 +57,9 @@ private fun Content(
         }
 
         Button(
-            onClick = { activity.startActivity(Intent(activity, SampleInvisibleModeActivity::class.java)) }
+            onClick = { activity.startActivity(Intent(activity, SampleBoundaryModeActivity::class.java)) }
         ) {
-            Text(text = "Invisible mode")
+            Text(text = "Boundary mode")
         }
 
         Button(

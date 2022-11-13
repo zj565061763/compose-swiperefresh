@@ -342,15 +342,18 @@ open class IndicatorContainerStateBelow(
 }
 
 /**
- * [IndicatorMode.Invisible]
+ * [IndicatorMode.Boundary]
  */
-open class IndicatorContainerStateInvisible(
+open class IndicatorContainerStateBoundary(
     swipeRefreshState: FSwipeRefreshState,
     direction: RefreshDirection,
 ) : ExpandedIndicatorContainerState(swipeRefreshState, direction) {
 
-    override val refreshingDistance: Int
-        get() = 0
+    override val offset: Int
+        get() = super.offset + swipeRefreshState.sharedOffset.roundToInt()
+
+    override val progress: Float
+        get() = 0f
 
     override fun onPostScroll(available: Float, source: NestedScrollSource): Float {
         if (available == 0f) return 0f
@@ -363,5 +366,16 @@ open class IndicatorContainerStateInvisible(
             }
         }
         return 0f
+    }
+
+    override suspend fun showRefreshing(): Boolean {
+        val swipeRefreshApi = swipeRefreshApi ?: return false
+        val distance = refreshingDistance
+        if (distance < 0) return false
+
+        val targetOffset = if (direction == RefreshDirection.Start) distance else -distance
+        val delta = targetOffset - swipeRefreshState.sharedOffset
+        swipeRefreshApi.appendOffset(delta)
+        return true
     }
 }

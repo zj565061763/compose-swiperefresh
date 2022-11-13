@@ -577,7 +577,7 @@ enum class IndicatorMode {
     Above,
     Drag,
     Below,
-    Invisible,
+    Boundary,
 }
 
 enum class RefreshDirection {

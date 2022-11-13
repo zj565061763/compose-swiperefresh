@@ -3,14 +3,15 @@ package com.sd.demo.compose_swiperefresh
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -19,7 +20,7 @@ import com.sd.lib.compose.swiperefresh.FSwipeRefresh
 import com.sd.lib.compose.swiperefresh.IndicatorMode
 import com.sd.lib.compose.swiperefresh.rememberFSwipeRefreshState
 
-class SampleInvisibleModeActivity : ComponentActivity() {
+class SampleBoundaryModeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -42,7 +43,7 @@ private fun Sample(
 
     val state = rememberFSwipeRefreshState().apply {
         // Set 'Invisible' mode for the end direction.
-        this.endIndicatorMode = IndicatorMode.Invisible
+        this.endIndicatorMode = IndicatorMode.Boundary
     }
 
     LaunchedEffect(uiState.isRefreshing) {
@@ -92,15 +93,7 @@ private fun ListView(list: List<String>, isLoadingMore: Boolean) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
-                contentAlignment = Alignment.Center,
-            ) {
-                if (isLoadingMore) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(25.dp),
-                        strokeWidth = 2.dp,
-                    )
-                }
-            }
+            )
         }
     }
 }
