@@ -63,9 +63,11 @@ private fun Sample(
     FSwipeRefresh(
         state = state,
         onRefreshStart = {
+            logMsg { "onRefreshStart" }
             viewModel.refresh(20)
         },
         onRefreshEnd = {
+            logMsg { "onRefreshEnd" }
             viewModel.loadMore()
         },
         indicator = {
