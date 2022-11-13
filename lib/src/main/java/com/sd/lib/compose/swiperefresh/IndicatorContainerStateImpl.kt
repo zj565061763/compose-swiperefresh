@@ -14,7 +14,7 @@ import kotlin.math.roundToInt
 
 abstract class BaseIndicatorContainerState(
     val swipeRefreshState: FSwipeRefreshState,
-    override val direction: RefreshDirection,
+    val direction: RefreshDirection,
 ) : IndicatorContainerState {
 
     private val _stateContainerSize = mutableStateOf(0)

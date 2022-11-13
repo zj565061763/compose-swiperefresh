@@ -7,12 +7,8 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 val LocalIndicatorContainerState = staticCompositionLocalOf<IndicatorContainerState?> { null }
 val LocalContainerApiForIndicator = staticCompositionLocalOf<ContainerApiForIndicator?> { null }
 
-interface IndicatorContainerState {
-    /**
-     * Direction of the container.
-     */
-    val direction: RefreshDirection
 
+interface IndicatorContainerState {
     /**
      * The current offset for the container.
      */
@@ -21,6 +17,11 @@ interface IndicatorContainerState {
 
 
 interface ContainerApiForIndicator {
+    /**
+     * Direction of the container.
+     */
+    val direction: RefreshDirection
+
     /**
      * The width or height of the container, which is determined by the [FSwipeRefreshState.orientationMode].
      */
