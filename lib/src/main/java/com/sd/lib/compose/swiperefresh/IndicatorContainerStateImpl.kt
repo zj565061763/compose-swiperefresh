@@ -96,22 +96,22 @@ abstract class ExpandedIndicatorContainerState(
     override val progress: Float
         get() = _stateProgress.value
 
-    final override fun setRefreshingDistance(distance: Int?) {
+    override fun setRefreshingDistance(distance: Int?) {
         if (distance != null) require(distance >= 0)
         _refreshingDistance = distance
     }
 
-    final override fun setRefreshTriggerDistance(distance: Int?) {
+    override fun setRefreshTriggerDistance(distance: Int?) {
         if (distance != null) require(distance >= 0)
         _refreshTriggerDistance = distance
     }
 
-    final override fun setIgnoredProgressDistance(distance: Int?) {
+    override fun setIgnoredProgressDistance(distance: Int?) {
         if (distance != null) require(distance >= 0)
         _ignoredProgressDistance = distance
     }
 
-    final override fun registerHideRefreshing(callback: suspend () -> Unit) {
+    override fun registerHideRefreshing(callback: suspend () -> Unit) {
         _callbackHideRefreshing[callback] = ""
     }
 
