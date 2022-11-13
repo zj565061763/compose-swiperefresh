@@ -213,7 +213,7 @@ private fun VerticalBox(
         Box(
             modifier = modifier
                 .fillMaxWidth()
-                .defaultMinSize(minHeight = 40.dp),
+                .defaultMinSize(minHeight = 50.dp),
             contentAlignment = Alignment.Center,
             content = content,
         )
@@ -232,7 +232,7 @@ private fun HorizontalBox(
         Box(
             modifier = modifier
                 .fillMaxHeight()
-                .defaultMinSize(minWidth = 40.dp),
+                .defaultMinSize(minWidth = 50.dp),
             contentAlignment = Alignment.Center,
             content = content,
         )
