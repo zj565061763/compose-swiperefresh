@@ -393,10 +393,9 @@ class FSwipeRefreshState internal constructor(
     private suspend fun showRefreshing(direction: RefreshDirection) {
         cancelContainerJobs()
 
-        currentDirection?.let { current ->
-            if (current != direction) {
-                hideRefreshingOrResetOffset(current, false)
-            }
+        val current = currentDirection
+        if (current != null && current != direction) {
+            hideRefreshingOrResetOffset(current, false)
         }
 
         // Set the direction first.
