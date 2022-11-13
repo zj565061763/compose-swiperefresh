@@ -356,7 +356,6 @@ open class IndicatorContainerStateInvisible(
         if (swipeRefreshState.refreshState == RefreshState.None) {
             val offsetDirection = if (available > 0) RefreshDirection.Start else RefreshDirection.End
             if (offsetDirection == direction) {
-                swipeRefreshApi.setDirection()
                 swipeRefreshApi.notifyCallback()
             }
         }
