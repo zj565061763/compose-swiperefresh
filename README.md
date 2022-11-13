@@ -108,7 +108,7 @@ Well that is it, if you want to learn more about how to customize the indicator 
 
 |                                Below                                 |                               Boundary                               |  
 |:--------------------------------------------------------------------:|:--------------------------------------------------------------------:|
-| <img src="https://thumbsnap.com/i/dmKAyDcX.gif?1112" width="320px"/> | <img src="https://thumbsnap.com/i/MrdmMTgY.gif?1110" width="320px"/> |
+| <img src="https://thumbsnap.com/i/dmKAyDcX.gif?1112" width="320px"/> | <img src="https://thumbsnap.com/i/aW4LqYrU.gif?1113" width="320px"/> |
 
 ```kotlin
 
