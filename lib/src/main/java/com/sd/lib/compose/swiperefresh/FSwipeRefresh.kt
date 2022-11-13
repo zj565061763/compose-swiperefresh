@@ -234,6 +234,10 @@ class FSwipeRefreshState internal constructor(
 
                 sharedOffset = newValue
                 currentDirection?.containerApi()?.onOffsetChanged()
+
+                if (_refreshState == RefreshState.Drag && newValue == 0f) {
+                    _refreshState = RefreshState.None
+                }
             }
         }
 
