@@ -145,20 +145,21 @@ private fun DefaultIndicatorContainer(
     }
 
     DisposableEffect(state) {
-        if (state.direction == RefreshDirection.Start) {
-            swipeRefreshState.startContainerApi = state
-        } else {
-            swipeRefreshState.endContainerApi = state
+        when (state.direction) {
+            RefreshDirection.Start -> swipeRefreshState.startContainerApi = state
+            RefreshDirection.End -> swipeRefreshState.endContainerApi = state
         }
-
         onDispose {
-            if (state.direction == RefreshDirection.Start) {
-                if (swipeRefreshState.startContainerApi == state) {
-                    swipeRefreshState.startContainerApi = null
+            when (state.direction) {
+                RefreshDirection.Start -> {
+                    if (swipeRefreshState.startContainerApi == state) {
+                        swipeRefreshState.startContainerApi = null
+                    }
                 }
-            } else {
-                if (swipeRefreshState.endContainerApi == state) {
-                    swipeRefreshState.endContainerApi = null
+                RefreshDirection.End -> {
+                    if (swipeRefreshState.endContainerApi == state) {
+                        swipeRefreshState.endContainerApi = null
+                    }
                 }
             }
         }
