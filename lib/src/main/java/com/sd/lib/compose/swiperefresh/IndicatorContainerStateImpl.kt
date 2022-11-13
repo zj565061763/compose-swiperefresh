@@ -115,7 +115,7 @@ abstract class ExpandedIndicatorContainerState(
         _callbackHideRefreshing[callback] = ""
     }
 
-    override fun unregisterHideRefreshing(callback: suspend () -> Unit) {
+    final override fun unregisterHideRefreshing(callback: suspend () -> Unit) {
         _callbackHideRefreshing.remove(callback)
     }
 
