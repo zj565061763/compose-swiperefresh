@@ -82,7 +82,7 @@ private fun Sample(
     LaunchedEffect(state) {
         snapshotFlow { state.refreshState }
             .collect {
-                logMsg { "$it ${state.flingEndState}" }
+                logMsg { "$it ${state.flingEndState} ${state.currentDirection}" }
             }
     }
 }
