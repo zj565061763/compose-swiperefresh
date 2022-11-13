@@ -44,7 +44,7 @@ private fun Sample(
         startIndicatorMode = IndicatorMode.Above
 
         // Set indicator mode for the end direction.
-        endIndicatorMode = IndicatorMode.Above
+        endIndicatorMode = IndicatorMode.Drag
     }
 
     LaunchedEffect(uiState.isRefreshing) {
