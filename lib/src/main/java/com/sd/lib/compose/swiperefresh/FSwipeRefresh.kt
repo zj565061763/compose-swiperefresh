@@ -146,7 +146,7 @@ class FSwipeRefreshState internal constructor(
     /**
      * The current offset for the content.
      */
-    var contentOffset by mutableStateOf(0f)
+    var contentOffset: Float by mutableStateOf(0f)
         private set
 
     /**
