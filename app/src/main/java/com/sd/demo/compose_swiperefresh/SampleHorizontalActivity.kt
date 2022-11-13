@@ -52,11 +52,9 @@ private fun Sample(
         state = state,
         orientationMode = OrientationMode.Horizontal,
         onRefreshStart = {
-            logMsg { "onRefreshStart" }
             viewModel.refresh(10)
         },
         onRefreshEnd = {
-            logMsg { "onRefreshEnd" }
             viewModel.loadMore()
         },
         modifier = Modifier.fillMaxSize()

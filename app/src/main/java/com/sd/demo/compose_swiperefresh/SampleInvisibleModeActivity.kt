@@ -57,8 +57,12 @@ private fun Sample(
 
     FSwipeRefresh(
         state = state,
-        onRefreshStart = { viewModel.refresh(20) },
-        onRefreshEnd = { viewModel.loadMore() },
+        onRefreshStart = {
+            viewModel.refresh(20)
+        },
+        onRefreshEnd = {
+            viewModel.loadMore()
+        },
         modifier = Modifier.fillMaxWidth()
     ) {
         ListView(list = uiState.list, isLoadingMore = uiState.isLoadingMore)
