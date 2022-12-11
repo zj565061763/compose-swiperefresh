@@ -39,9 +39,8 @@ android {
 }
 
 dependencies {
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.foundation:foundation:$compose_version"
-    implementation 'androidx.compose.material3:material3:1.0.0'
+    implementation platform("androidx.compose:compose-bom:$compose_bom_version")
+    implementation 'androidx.compose.material3:material3'
 }
 
 task generateSourcesJar(type: Jar) {
