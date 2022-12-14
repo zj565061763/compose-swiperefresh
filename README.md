@@ -129,13 +129,7 @@ FSwipeRefresh(
 
 ```
 
-The behavior of `IndicatorMode` is controlled by `ContainerApiForSwipeRefresh`. You can customize this behavior by provide the implementation of `ContainerApiForSwipeRefresh` to the `FSwipeRefreshState`. Check
-[`IndicatorContainerState`](https://github.com/zj565061763/compose-swiperefresh/blob/master/lib/src/main/java/com/sd/lib/compose/swiperefresh/IndicatorContainerState.kt)
-and
-[`IndicatorContainerStateImpl`](https://github.com/zj565061763/compose-swiperefresh/blob/master/lib/src/main/java/com/sd/lib/compose/swiperefresh/IndicatorContainerStateImpl.kt)
-for more information.
-
-<br>
+The behavior of `IndicatorMode` is controlled by `ContainerApiForSwipeRefresh`.
 
 Here is an example of how to customize the indicator mode behavior,
 [click here](https://github.com/zj565061763/compose-swiperefresh/blob/master/app/src/main/java/com/sd/demo/compose_swiperefresh/SampleCustomModeActivity.kt)
