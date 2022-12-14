@@ -334,7 +334,13 @@ class FSwipeRefreshState internal constructor(
         return Delegates.observable(null) { _, oldValue, newValue ->
             if (oldValue != newValue) {
                 oldValue?.onDetach()
-                newValue?.onAttach(createSwipeRefreshApiForContainer(direction))
+                if (currentDirection == direction) {
+                    reset {
+                        newValue?.onAttach(createSwipeRefreshApiForContainer(direction))
+                    }
+                } else {
+                    newValue?.onAttach(createSwipeRefreshApiForContainer(direction))
+                }
             }
         }
     }
@@ -421,6 +427,7 @@ class FSwipeRefreshState internal constructor(
             _animOffset.stop()
         }
         _internalOffset = 0f
+        contentOffset = 0f
         _refreshState = RefreshState.None
     }
 
