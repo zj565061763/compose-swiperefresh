@@ -182,13 +182,7 @@ class FSwipeRefreshState internal constructor(
      */
     var endIndicatorMode: IndicatorMode by mutableStateOf(IndicatorMode.Above)
 
-    /**
-     * Container api for the start direction.
-     */
     internal var startContainerApi: ContainerApiForSwipeRefresh? by createContainerApiDelegate(RefreshDirection.Start)
-    /**
-     * Container api for the end direction.
-     */
     internal var endContainerApi: ContainerApiForSwipeRefresh? by createContainerApiDelegate(RefreshDirection.End)
 
     @Volatile
