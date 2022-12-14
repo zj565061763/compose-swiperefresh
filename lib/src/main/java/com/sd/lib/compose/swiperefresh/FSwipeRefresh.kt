@@ -20,7 +20,6 @@ import com.sd.lib.compose.swiperefresh.indicator.DefaultSwipeRefreshIndicator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.roundToInt
 import kotlin.properties.Delegates
 import kotlin.properties.ReadWriteProperty
@@ -197,7 +196,7 @@ class FSwipeRefreshState internal constructor(
     internal var _onRefreshEnd: (() -> Unit)? = null
 
 
-    private val _containerJobs: MutableMap<Job, String> = ConcurrentHashMap()
+    private val _containerJobs: MutableMap<Job, String> = hashMapOf()
 
     private val _animOffset = Animatable(0f)
 
@@ -462,9 +461,13 @@ class FSwipeRefreshState internal constructor(
     }
 
     private fun cancelContainerJobs() {
-        _containerJobs.forEach {
-            it.key.cancel()
-            _containerJobs.remove(it.key)
+        while (true) {
+            if (_containerJobs.isEmpty()) break
+            val holder = _containerJobs.keys.toTypedArray()
+            holder.forEach {
+                it.cancel()
+                _containerJobs.remove(it)
+            }
         }
     }
 
