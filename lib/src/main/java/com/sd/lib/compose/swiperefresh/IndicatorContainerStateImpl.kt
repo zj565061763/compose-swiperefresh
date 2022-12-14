@@ -163,9 +163,11 @@ abstract class ExpandedIndicatorContainerState(
 
     @CallSuper
     override suspend fun hideRefreshing(anim: Boolean): Boolean {
-        val holder = _hideRefreshingCallbacks.keys.toTypedArray()
-        holder.forEach {
-            it.invoke()
+        if (swipeRefreshState.isRefreshing) {
+            val holder = _hideRefreshingCallbacks.keys.toTypedArray()
+            holder.forEach {
+                it.invoke()
+            }
         }
         return false
     }
@@ -272,12 +274,8 @@ abstract class DraggableIndicatorContainerState(
     }
 
     override suspend fun hideRefreshing(anim: Boolean): Boolean {
+        super.hideRefreshing(anim)
         val swipeRefreshApi = swipeRefreshApi ?: return false
-
-        if (swipeRefreshState.isRefreshing) {
-            super.hideRefreshing(anim)
-        }
-
         swipeRefreshApi.resetOffset(anim)
         return true
     }
