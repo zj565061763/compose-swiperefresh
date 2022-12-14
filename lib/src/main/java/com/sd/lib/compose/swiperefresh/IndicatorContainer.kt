@@ -20,6 +20,9 @@ fun StartIndicatorContainer(
     modifier: Modifier = Modifier,
     indicator: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
 ) {
+    require(state is ContainerApiForIndicator) { "state should be instance of ContainerApiForIndicator." }
+    check(state.direction == RefreshDirection.Start) { "state.direction != RefreshDirection.End" }
+
     DefaultIndicatorContainer(
         state = state,
         modifier = modifier,
@@ -37,6 +40,9 @@ fun EndIndicatorContainer(
     modifier: Modifier = Modifier,
     indicator: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
 ) {
+    require(state is ContainerApiForIndicator) { "state should be instance of ContainerApiForIndicator." }
+    check(state.direction == RefreshDirection.End) { "state.direction != RefreshDirection.End" }
+
     DefaultIndicatorContainer(
         state = state,
         modifier = modifier,
