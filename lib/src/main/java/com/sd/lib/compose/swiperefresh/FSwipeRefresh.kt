@@ -258,7 +258,7 @@ class FSwipeRefreshState internal constructor(
         }
 
     /**
-     * Synchronize ui state in the start direction, 'onRefreshStart' this will not be called when [refresh] is true.
+     * Sync ui state in the start direction, 'onRefreshStart' this will not be called when [refresh] is true.
      */
     suspend fun refreshStart(refresh: Boolean) {
         if (refresh) {
@@ -269,7 +269,7 @@ class FSwipeRefreshState internal constructor(
     }
 
     /**
-     * Synchronize ui state in the end direction. 'onRefreshEnd' will not be called when [refresh] is true.
+     * Sync ui state in the end direction. 'onRefreshEnd' will not be called when [refresh] is true.
      */
     suspend fun refreshEnd(refresh: Boolean) {
         if (refresh) {

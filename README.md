@@ -16,11 +16,11 @@ val uiState by viewModel.uiState.collectAsState()
 val state = rememberFSwipeRefreshState()
 
 LaunchedEffect(uiState.isRefreshing) {
-    // Synchronize ui state in the start direction, 'onRefreshStart' this will not be called when 'isRefreshing' is true.
+    // Sync ui state in the start direction, 'onRefreshStart' this will not be called when 'isRefreshing' is true.
     state.refreshStart(uiState.isRefreshing)
 }
 LaunchedEffect(uiState.isLoadingMore) {
-    // Synchronize ui state in the end direction. 'onRefreshEnd' will not be called when 'isLoadingMore' is true.
+    // Sync ui state in the end direction. 'onRefreshEnd' will not be called when 'isLoadingMore' is true.
     state.refreshEnd(uiState.isLoadingMore)
 }
 
