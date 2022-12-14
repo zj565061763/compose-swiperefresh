@@ -52,9 +52,9 @@ abstract class ExpandedIndicatorContainerState(
 
     //-------------------- Api for Indicator --------------------
 
-    private var _refreshingDistance by mutableStateOf<Int?>(null)
-    private var _refreshTriggerDistance by mutableStateOf<Int?>(null)
-    private var _ignoredProgressDistance by mutableStateOf<Int?>(null)
+    private var _refreshingDistanceState by mutableStateOf<Int?>(null)
+    private var _refreshTriggerDistanceState by mutableStateOf<Int?>(null)
+    private var _ignoredProgressDistanceState by mutableStateOf<Int?>(null)
 
     private val _callbackHideRefreshing: MutableMap<suspend () -> Unit, String> = ConcurrentHashMap()
 
@@ -67,7 +67,7 @@ abstract class ExpandedIndicatorContainerState(
                 swipeRefreshState.isRefreshing -> 1f
                 else -> {
                     calculateProgress(
-                        ignored = (_ignoredProgressDistance ?: 0).toFloat(),
+                        ignored = (_ignoredProgressDistanceState ?: 0).toFloat(),
                         distance = swipeRefreshState.sharedOffset.absoluteValue,
                         total = distance.toFloat()
                     )
@@ -77,11 +77,11 @@ abstract class ExpandedIndicatorContainerState(
     }
 
     override val refreshingDistance: Int by derivedStateOf {
-        _refreshingDistance ?: containerSize
+        _refreshingDistanceState ?: containerSize
     }
 
     override val refreshTriggerDistance: Int by derivedStateOf {
-        _refreshTriggerDistance ?: containerSize
+        _refreshTriggerDistanceState ?: containerSize
     }
 
     override val maxDragDistance: Int by derivedStateOf {
@@ -98,17 +98,17 @@ abstract class ExpandedIndicatorContainerState(
 
     override fun setRefreshingDistance(distance: Int?) {
         if (distance != null) require(distance >= 0)
-        _refreshingDistance = distance
+        _refreshingDistanceState = distance
     }
 
     override fun setRefreshTriggerDistance(distance: Int?) {
         if (distance != null) require(distance >= 0)
-        _refreshTriggerDistance = distance
+        _refreshTriggerDistanceState = distance
     }
 
     override fun setIgnoredProgressDistance(distance: Int?) {
         if (distance != null) require(distance >= 0)
-        _ignoredProgressDistance = distance
+        _ignoredProgressDistanceState = distance
     }
 
     override fun registerHideRefreshing(callback: suspend () -> Unit) {
