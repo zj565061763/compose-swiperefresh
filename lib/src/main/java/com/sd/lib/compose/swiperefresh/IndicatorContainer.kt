@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.sd.lib.compose.swiperefresh.indicator.DefaultSwipeRefreshIndicator
 
-
 /**
  * Indicator container for the start direction.
  */
@@ -38,7 +37,6 @@ fun StartIndicatorContainer(
     }
 }
 
-
 /**
  * Indicator container for the end direction.
  */
@@ -64,7 +62,6 @@ fun EndIndicatorContainer(
         indicator()
     }
 }
-
 
 /**
  * [IndicatorContainerState] for [IndicatorMode.Above].
@@ -118,6 +115,8 @@ fun rememberIndicatorContainerStateBoundary(
     }
 }
 
+val LocalIndicatorContainerState = staticCompositionLocalOf<IndicatorContainerState?> { null }
+val LocalContainerApiForIndicator = staticCompositionLocalOf<ContainerApiForIndicator?> { null }
 
 /**
  * Default indicator container.
