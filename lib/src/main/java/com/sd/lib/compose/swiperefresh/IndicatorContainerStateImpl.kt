@@ -254,7 +254,7 @@ abstract class DraggableIndicatorContainerState(
             if (notifyRefresh && swipeRefreshApi.hasCallback()) {
                 if (showRefreshing()) {
                     swipeRefreshApi.notifyCallback()
-                    delay(50)
+                    delay(100)
                 }
             }
             hideRefreshing(true)
