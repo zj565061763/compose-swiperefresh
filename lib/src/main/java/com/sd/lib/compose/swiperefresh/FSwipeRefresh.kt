@@ -185,7 +185,6 @@ class FSwipeRefreshState internal constructor(
     internal var endContainerApi: ContainerApiForSwipeRefresh? by createContainerApiDelegate(RefreshDirection.End)
 
     private var _resetInProgress = false
-
     internal var _orientationMode by Delegates.observable(orientationMode) { _, oldValue, newValue ->
         if (oldValue != newValue) {
             reset()
@@ -211,7 +210,6 @@ class FSwipeRefreshState internal constructor(
                     if (currentDirection == null) {
                         currentDirection = if (newValue > 0) RefreshDirection.Start else RefreshDirection.End
                     }
-
                     if (_refreshState == RefreshState.None) {
                         _refreshState = RefreshState.Drag
                     }
