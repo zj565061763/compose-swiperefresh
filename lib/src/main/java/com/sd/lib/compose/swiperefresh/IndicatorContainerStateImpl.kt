@@ -58,7 +58,7 @@ abstract class ExpandedIndicatorContainerState(
 
     private val _callbackHideRefreshing: MutableMap<suspend () -> Unit, String> = ConcurrentHashMap()
 
-    private val _stateProgress = derivedStateOf {
+    private val _progressState by derivedStateOf {
         val distance = refreshTriggerDistance
         if (distance <= 0) {
             0f
@@ -94,7 +94,7 @@ abstract class ExpandedIndicatorContainerState(
     }
 
     override val progress: Float
-        get() = _stateProgress.value
+        get() = _progressState
 
     override fun setRefreshingDistance(distance: Int?) {
         if (distance != null) require(distance >= 0)
