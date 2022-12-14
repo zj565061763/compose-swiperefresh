@@ -157,7 +157,7 @@ class FSwipeRefreshState internal constructor(
     /**
      * Current state.
      */
-    val refreshState: RefreshState by derivedStateOf { refreshStateRecord.state }
+    val refreshState: RefreshState by derivedStateOf { refreshStateRecord.current }
 
     /**
      * This is a future state when [RefreshState.Fling] ends,
@@ -237,7 +237,7 @@ class FSwipeRefreshState internal constructor(
     private var _refreshState by Delegates.observable(RefreshState.None) { _, oldValue, newValue ->
         if (oldValue != newValue) {
             refreshStateRecord = RefreshStateRecord(
-                state = newValue,
+                current = newValue,
                 previous = oldValue,
             )
 
@@ -586,7 +586,7 @@ enum class RefreshState {
 }
 
 data class RefreshStateRecord internal constructor(
-    val state: RefreshState = RefreshState.None,
+    val current: RefreshState = RefreshState.None,
     val previous: RefreshState = RefreshState.None,
 )
 
