@@ -441,17 +441,22 @@ class FSwipeRefreshState internal constructor(
         _animOffset.animateTo(offset) { _internalOffset = value }
     }
 
+    private var _resetJob: Job? = null
+
     private fun reset(onFinish: (() -> Unit)? = null) {
+        _resetJob?.cancel()
         _resetInProgress = true
         cancelContainerJobs()
         coroutineScope.launch {
             try {
                 currentDirection?.containerApi()?.hideRefreshing(false)
                 resetOffset(false)
-            } finally {
                 onFinish?.invoke()
+            } finally {
                 _resetInProgress = false
             }
+        }.also {
+            _resetJob = it
         }
     }
 
