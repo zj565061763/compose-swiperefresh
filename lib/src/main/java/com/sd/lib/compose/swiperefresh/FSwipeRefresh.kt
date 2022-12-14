@@ -250,7 +250,10 @@ class FSwipeRefreshState internal constructor(
 
     private var _orientationHandler: OrientationHandler? = null
     private val orientationHandler: OrientationHandler
-        get() = _orientationHandler ?: createOrientationHandler().also {
+        get() = _orientationHandler ?: when (_orientationMode) {
+            OrientationMode.Vertical -> VerticalHandler()
+            OrientationMode.Horizontal -> HorizontalHandler()
+        }.also {
             _orientationHandler = it
         }
 
@@ -441,7 +444,6 @@ class FSwipeRefreshState internal constructor(
     private fun reset(onFinish: (() -> Unit)? = null) {
         _resetInProgress = true
         cancelContainerJobs()
-
         coroutineScope.launch {
             try {
                 currentDirection?.containerApi()?.hideRefreshing(false)
@@ -450,13 +452,6 @@ class FSwipeRefreshState internal constructor(
                 onFinish?.invoke()
                 _resetInProgress = false
             }
-        }
-    }
-
-    private fun createOrientationHandler(): OrientationHandler {
-        return when (_orientationMode) {
-            OrientationMode.Vertical -> VerticalHandler()
-            OrientationMode.Horizontal -> HorizontalHandler()
         }
     }
 
