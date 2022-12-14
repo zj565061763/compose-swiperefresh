@@ -63,16 +63,12 @@ abstract class ExpandedIndicatorContainerState(
         if (distance <= 0) {
             0f
         } else {
-            when {
-                swipeRefreshState.isRefreshing -> 1f
-                else -> {
-                    calculateProgress(
-                        ignored = (_ignoredProgressDistanceState ?: 0).toFloat(),
-                        distance = swipeRefreshState.sharedOffset.absoluteValue,
-                        total = distance.toFloat()
-                    )
-                }
-            }
+            if (swipeRefreshState.isRefreshing) 1f
+            else calculateProgress(
+                ignored = (_ignoredProgressDistanceState ?: 0).toFloat(),
+                distance = swipeRefreshState.sharedOffset.absoluteValue,
+                total = distance.toFloat()
+            )
         }.absoluteValue.coerceIn(0f, 1f)
     }
 
