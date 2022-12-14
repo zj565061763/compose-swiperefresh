@@ -65,6 +65,7 @@ private fun DefaultIndicatorContainer(
     var containerSize by remember { mutableStateOf(IntSize.Zero) }
 
     if (state is BaseIndicatorContainerState) {
+        check(state.swipeRefreshState === swipeRefreshState) { "state.swipeRefreshState != LocalFSwipeRefreshState.current" }
         state.setContainerSize(
             when (swipeRefreshState.orientationMode) {
                 OrientationMode.Vertical -> containerSize.height
