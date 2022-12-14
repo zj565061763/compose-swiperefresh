@@ -8,7 +8,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
-import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
@@ -56,7 +55,7 @@ abstract class ExpandedIndicatorContainerState(
     private var _refreshTriggerDistanceState by mutableStateOf<Int?>(null)
     private var _ignoredProgressDistanceState by mutableStateOf<Int?>(null)
 
-    private val _hideRefreshingCallbacks: MutableMap<suspend () -> Unit, String> = ConcurrentHashMap()
+    private val _hideRefreshingCallbacks: MutableMap<suspend () -> Unit, String> = hashMapOf()
 
     private val _progressState by derivedStateOf {
         val distance = refreshTriggerDistance
@@ -164,8 +163,9 @@ abstract class ExpandedIndicatorContainerState(
 
     @CallSuper
     override suspend fun hideRefreshing(anim: Boolean): Boolean {
-        _hideRefreshingCallbacks.forEach {
-            it.key.invoke()
+        val holder = _hideRefreshingCallbacks.keys.toTypedArray()
+        holder.forEach {
+            it.invoke()
         }
         return false
     }
