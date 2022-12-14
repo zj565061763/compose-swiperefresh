@@ -66,7 +66,7 @@ private fun DefaultIndicatorContainer(
 
     if (state is BaseIndicatorContainerState) {
         state.setContainerSize(
-            when (state.swipeRefreshState.orientationMode) {
+            when (swipeRefreshState.orientationMode) {
                 OrientationMode.Vertical -> containerSize.height
                 OrientationMode.Horizontal -> containerSize.width
             }
