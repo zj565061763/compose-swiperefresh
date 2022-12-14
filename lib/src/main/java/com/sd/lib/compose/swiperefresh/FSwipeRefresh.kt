@@ -185,11 +185,11 @@ class FSwipeRefreshState internal constructor(
     /**
      * Container api for the start direction.
      */
-    var startContainerApi: ContainerApiForSwipeRefresh? by createContainerApiDelegate(RefreshDirection.Start)
+    internal var startContainerApi: ContainerApiForSwipeRefresh? by createContainerApiDelegate(RefreshDirection.Start)
     /**
      * Container api for the end direction.
      */
-    var endContainerApi: ContainerApiForSwipeRefresh? by createContainerApiDelegate(RefreshDirection.End)
+    internal var endContainerApi: ContainerApiForSwipeRefresh? by createContainerApiDelegate(RefreshDirection.End)
 
     @Volatile
     private var _resetInProgress = false
