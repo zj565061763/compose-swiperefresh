@@ -184,7 +184,6 @@ class FSwipeRefreshState internal constructor(
     internal var startContainerApi: ContainerApiForSwipeRefresh? by createContainerApiDelegate(RefreshDirection.Start)
     internal var endContainerApi: ContainerApiForSwipeRefresh? by createContainerApiDelegate(RefreshDirection.End)
 
-    @Volatile
     private var _resetInProgress = false
 
     internal var _orientationMode by Delegates.observable(orientationMode) { _, oldValue, newValue ->
@@ -202,8 +201,8 @@ class FSwipeRefreshState internal constructor(
 
     private var _internalOffset = 0f
         set(value) {
-            val oldValue = field
             val newValue = safeOffset(value)
+            val oldValue = field
             if (oldValue != newValue) {
                 field = newValue
 
