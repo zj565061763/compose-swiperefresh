@@ -63,7 +63,6 @@ fun FSwipeRefresh(
     )
 }
 
-
 @Composable
 private fun SwipeRefresh(
     state: FSwipeRefreshState,
