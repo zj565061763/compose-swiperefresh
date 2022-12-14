@@ -56,7 +56,7 @@ abstract class ExpandedIndicatorContainerState(
     private var _refreshTriggerDistanceState by mutableStateOf<Int?>(null)
     private var _ignoredProgressDistanceState by mutableStateOf<Int?>(null)
 
-    private val _callbackHideRefreshing: MutableMap<suspend () -> Unit, String> = ConcurrentHashMap()
+    private val _hideRefreshingCallbacks: MutableMap<suspend () -> Unit, String> = ConcurrentHashMap()
 
     private val _progressState by derivedStateOf {
         val distance = refreshTriggerDistance
@@ -108,11 +108,11 @@ abstract class ExpandedIndicatorContainerState(
     }
 
     override fun registerHideRefreshing(callback: suspend () -> Unit) {
-        _callbackHideRefreshing[callback] = ""
+        _hideRefreshingCallbacks[callback] = ""
     }
 
     final override fun unregisterHideRefreshing(callback: suspend () -> Unit) {
-        _callbackHideRefreshing.remove(callback)
+        _hideRefreshingCallbacks.remove(callback)
     }
 
     //-------------------- Api for SwipeRefresh --------------------
@@ -164,7 +164,7 @@ abstract class ExpandedIndicatorContainerState(
 
     @CallSuper
     override suspend fun hideRefreshing(anim: Boolean): Boolean {
-        _callbackHideRefreshing.forEach {
+        _hideRefreshingCallbacks.forEach {
             it.key.invoke()
         }
         return false
