@@ -17,11 +17,11 @@ abstract class BaseIndicatorContainerState(
     val direction: RefreshDirection,
 ) : IndicatorContainerState {
 
-    private val _containerSizeState = mutableStateOf(0)
+    private var _containerSizeState by mutableStateOf(0)
 
-    private val _defaultOffsetState = derivedStateOf {
+    private val _defaultOffsetState by derivedStateOf {
         when (direction) {
-            RefreshDirection.Start -> -_containerSizeState.value
+            RefreshDirection.Start -> -_containerSizeState
             RefreshDirection.End -> {
                 when (swipeRefreshState.orientationMode) {
                     OrientationMode.Vertical -> swipeRefreshState.layoutSize.height
@@ -32,14 +32,14 @@ abstract class BaseIndicatorContainerState(
     }
 
     val containerSize: Int
-        get() = _containerSizeState.value
+        get() = _containerSizeState
 
     override val offset: Int
-        get() = _defaultOffsetState.value
+        get() = _defaultOffsetState
 
     fun setContainerSize(size: Int) {
         if (size < 0) return
-        _containerSizeState.value = size
+        _containerSizeState = size
     }
 }
 
