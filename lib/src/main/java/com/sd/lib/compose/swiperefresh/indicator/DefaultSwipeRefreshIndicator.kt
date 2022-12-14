@@ -14,8 +14,6 @@ import androidx.compose.ui.unit.dp
 import com.sd.lib.compose.swiperefresh.*
 import kotlin.math.roundToInt
 
-private const val RefreshingDistanceMultiplier = 1.3f
-
 /**
  * Default indicator style.
  */
@@ -28,27 +26,12 @@ fun DefaultSwipeRefreshIndicator(
     size: Dp = 40.dp,
     spinnerSize: Dp = size.times(0.5f),
     padding: PaddingValues = PaddingValues(5.dp),
-    configRefreshTriggerDistance: Boolean = true,
     configIgnoredProgressDistance: Boolean = true,
 ) {
     val state = checkNotNull(LocalFSwipeRefreshState.current)
     val containerApi = checkNotNull(LocalContainerApiForIndicator.current)
 
     var indicatorSize by remember { mutableStateOf(IntSize.Zero) }
-
-
-    if (configRefreshTriggerDistance) {
-        val refreshingDistance = containerApi.refreshingDistance
-        if (refreshingDistance > 0) {
-            DisposableEffect(refreshingDistance) {
-                val triggerDistance = refreshingDistance * RefreshingDistanceMultiplier
-                containerApi.setRefreshTriggerDistance(triggerDistance.roundToInt())
-                onDispose {
-                    containerApi.setRefreshTriggerDistance(null)
-                }
-            }
-        }
-    }
 
 
     if (configIgnoredProgressDistance) {

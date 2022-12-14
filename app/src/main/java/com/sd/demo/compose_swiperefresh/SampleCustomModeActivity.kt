@@ -161,7 +161,7 @@ private fun StartIndicatorContent(isReachBounds: Boolean) {
 
     val indicatorHeight = indicatorSize.height
     if (indicatorHeight > 0) {
-        LaunchedEffect(indicatorHeight) {
+        LaunchedEffect(containerApi, indicatorHeight) {
             containerApi.setRefreshingDistance(indicatorHeight)
         }
     }
