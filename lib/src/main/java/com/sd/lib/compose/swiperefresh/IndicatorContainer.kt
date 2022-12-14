@@ -16,21 +16,12 @@ import com.sd.lib.compose.swiperefresh.indicator.DefaultSwipeRefreshIndicator
  */
 @Composable
 fun StartIndicatorContainer(
-    state: IndicatorContainerState? = null,
+    state: IndicatorContainerState = rememberStartIndicatorContainerState(),
     modifier: Modifier = Modifier,
     indicator: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
 ) {
-    val swipeState = checkNotNull(LocalFSwipeRefreshState.current)
-
-    val containerState = state ?: when (swipeState.startIndicatorMode) {
-        IndicatorMode.Above -> rememberIndicatorContainerStateAbove(swipeState, RefreshDirection.Start)
-        IndicatorMode.Drag -> rememberIndicatorContainerStateDrag(swipeState, RefreshDirection.Start)
-        IndicatorMode.Below -> rememberIndicatorContainerStateBelow(swipeState, RefreshDirection.Start)
-        IndicatorMode.Boundary -> rememberIndicatorContainerStateBoundary(swipeState, RefreshDirection.Start)
-    }
-
     DefaultIndicatorContainer(
-        state = containerState,
+        state = state,
         modifier = modifier,
     ) {
         indicator()
@@ -42,76 +33,15 @@ fun StartIndicatorContainer(
  */
 @Composable
 fun EndIndicatorContainer(
-    state: IndicatorContainerState? = null,
+    state: IndicatorContainerState = rememberEndIndicatorContainerState(),
     modifier: Modifier = Modifier,
     indicator: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
 ) {
-    val swipeState = checkNotNull(LocalFSwipeRefreshState.current)
-
-    val containerState = state ?: when (swipeState.endIndicatorMode) {
-        IndicatorMode.Above -> rememberIndicatorContainerStateAbove(swipeState, RefreshDirection.End)
-        IndicatorMode.Drag -> rememberIndicatorContainerStateDrag(swipeState, RefreshDirection.End)
-        IndicatorMode.Below -> rememberIndicatorContainerStateBelow(swipeState, RefreshDirection.End)
-        IndicatorMode.Boundary -> rememberIndicatorContainerStateBoundary(swipeState, RefreshDirection.End)
-    }
-
     DefaultIndicatorContainer(
-        state = containerState,
+        state = state,
         modifier = modifier,
     ) {
         indicator()
-    }
-}
-
-/**
- * [IndicatorContainerState] for [IndicatorMode.Above].
- */
-@Composable
-fun rememberIndicatorContainerStateAbove(
-    swipeRefreshState: FSwipeRefreshState,
-    direction: RefreshDirection,
-): IndicatorContainerState {
-    return remember(swipeRefreshState, direction) {
-        IndicatorContainerStateAbove(swipeRefreshState, direction)
-    }
-}
-
-/**
- * [IndicatorContainerState] for [IndicatorMode.Drag].
- */
-@Composable
-fun rememberIndicatorContainerStateDrag(
-    swipeRefreshState: FSwipeRefreshState,
-    direction: RefreshDirection,
-): IndicatorContainerState {
-    return remember(swipeRefreshState, direction) {
-        IndicatorContainerStateDrag(swipeRefreshState, direction)
-    }
-}
-
-/**
- * [IndicatorContainerState] for [IndicatorMode.Below].
- */
-@Composable
-fun rememberIndicatorContainerStateBelow(
-    swipeRefreshState: FSwipeRefreshState,
-    direction: RefreshDirection,
-): IndicatorContainerState {
-    return remember(swipeRefreshState, direction) {
-        IndicatorContainerStateBelow(swipeRefreshState, direction)
-    }
-}
-
-/**
- * [IndicatorContainerState] for [IndicatorMode.Boundary].
- */
-@Composable
-fun rememberIndicatorContainerStateBoundary(
-    swipeRefreshState: FSwipeRefreshState,
-    direction: RefreshDirection,
-): IndicatorContainerState {
-    return remember(swipeRefreshState, direction) {
-        IndicatorContainerStateBoundary(swipeRefreshState, direction)
     }
 }
 
