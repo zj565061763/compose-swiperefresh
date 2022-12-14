@@ -378,6 +378,7 @@ class FSwipeRefreshState internal constructor(
     }
 
     private suspend fun showRefreshing(direction: RefreshDirection) {
+        if (_resetInProgress) return
         cancelContainerJobs()
 
         val current = currentDirection
