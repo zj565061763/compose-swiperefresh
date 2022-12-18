@@ -37,7 +37,7 @@ private fun Sample(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    val state = rememberFSwipeRefreshState().apply {
+    val state = rememberFSwipeRefreshState {
         // Set 'Drag' mode for the start direction.
         this.startIndicatorMode = IndicatorMode.Drag
 

@@ -27,9 +27,9 @@ import kotlin.properties.ReadWriteProperty
 val LocalFSwipeRefreshState = staticCompositionLocalOf<FSwipeRefreshState?> { null }
 
 @Composable
-fun rememberFSwipeRefreshState(): FSwipeRefreshState {
+fun rememberFSwipeRefreshState(apply: FSwipeRefreshState.() -> Unit = {}): FSwipeRefreshState {
     val coroutineScope = rememberCoroutineScope()
-    return remember { FSwipeRefreshState(coroutineScope) }
+    return remember { FSwipeRefreshState(coroutineScope).apply(apply) }
 }
 
 @Composable
@@ -115,7 +115,7 @@ private fun SwipeRefresh(
 }
 
 class FSwipeRefreshState internal constructor(
-    val coroutineScope: CoroutineScope
+    val coroutineScope: CoroutineScope,
 ) {
     /**
      * [OrientationMode]

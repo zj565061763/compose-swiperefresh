@@ -112,12 +112,12 @@ Well that is it, if you want to learn more about how to customize the indicator 
 
 ```kotlin
 
-val state = rememberFSwipeRefreshState().apply {
+val state = rememberFSwipeRefreshState {
     // Set indicator mode for the start direction. 'Above' is the default indicator mode.
-    startIndicatorMode = IndicatorMode.Above
+    this.startIndicatorMode = IndicatorMode.Above
 
     // Set indicator mode for the end direction.
-    endIndicatorMode = IndicatorMode.Above
+    this.endIndicatorMode = IndicatorMode.Above
 }
 
 FSwipeRefresh(

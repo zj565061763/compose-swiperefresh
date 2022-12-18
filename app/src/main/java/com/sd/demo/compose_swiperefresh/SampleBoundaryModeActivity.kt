@@ -37,11 +37,11 @@ class SampleBoundaryModeActivity : ComponentActivity() {
 
 @Composable
 private fun Sample(
-    viewModel: MainViewModel = viewModel()
+    viewModel: MainViewModel = viewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    val state = rememberFSwipeRefreshState().apply {
+    val state = rememberFSwipeRefreshState {
         // Set 'Boundary' mode for the end direction.
         this.endIndicatorMode = IndicatorMode.Boundary
     }
