@@ -198,7 +198,6 @@ abstract class ExpandedIndicatorContainerState(
     }
 }
 
-
 abstract class DraggableIndicatorContainerState(
     swipeRefreshState: FSwipeRefreshState,
     direction: RefreshDirection,
