@@ -23,20 +23,20 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.center
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.PathFillType
-import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -57,13 +57,17 @@ internal fun GoogleSwipeRefreshIndicator(
     size: Dp,
     spinnerSize: Dp,
     padding: PaddingValues,
+    shadow: Boolean,
 ) {
     PaddingSizedBox(
         size = size,
         padding = padding,
         modifier = modifier,
     ) {
-        CircularBox(backgroundColor) {
+        CircularBox(
+            backgroundColor = backgroundColor,
+            shadow = shadow,
+        ) {
             Crossfade(
                 targetState = isRefreshing,
                 animationSpec = tween(CrossfadeDurationMs),
@@ -116,13 +120,40 @@ private fun PaddingSizedBox(
 @Composable
 private fun CircularBox(
     backgroundColor: Color,
+    shadow: Boolean,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
+    val shadowColor = contentColorFor(backgroundColor)
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(backgroundColor, CircleShape),
+            .background(backgroundColor, CircleShape)
+            .let {
+                if (shadow) {
+                    it.drawBehind {
+                        drawIntoCanvas { canvas ->
+                            val paint = Paint()
+                            with(paint.asFrameworkPaint()) {
+                                this.color = backgroundColor.toArgb()
+                                this.setShadowLayer(
+                                    5.dp.toPx(),
+                                    0f,
+                                    0f,
+                                    shadowColor
+                                        .copy(0.2f)
+                                        .toArgb(),
+                                )
+                            }
+
+                            val outline = CircleShape.createOutline(size, layoutDirection, this)
+                            canvas.drawOutline(outline, paint)
+                        }
+                    }
+                } else {
+                    it
+                }
+            },
         contentAlignment = Alignment.Center
     ) {
         content()
@@ -183,7 +214,7 @@ private class ArrowValues(
     val rotation: Float,
     val startAngle: Float,
     val endAngle: Float,
-    val scale: Float
+    val scale: Float,
 )
 
 private fun ArrowValues(progress: Float): ArrowValues {

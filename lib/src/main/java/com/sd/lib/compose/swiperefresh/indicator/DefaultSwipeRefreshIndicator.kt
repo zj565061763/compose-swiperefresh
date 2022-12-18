@@ -26,6 +26,7 @@ fun DefaultSwipeRefreshIndicator(
     size: Dp = 40.dp,
     spinnerSize: Dp = size.times(0.5f),
     padding: PaddingValues = PaddingValues(5.dp),
+    shadow: Boolean = true,
     configIgnoredProgressDistance: Boolean = true,
 ) {
     val state = checkNotNull(LocalFSwipeRefreshState.current)
@@ -106,5 +107,6 @@ fun DefaultSwipeRefreshIndicator(
         size = size,
         spinnerSize = spinnerSize,
         padding = padding,
+        shadow = shadow,
     )
 }
