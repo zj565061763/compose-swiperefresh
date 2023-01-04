@@ -43,7 +43,7 @@ private fun Sample(
 
     val state = rememberFSwipeRefreshState {
         // Set 'Boundary' mode for the end direction.
-        this.endIndicatorMode = IndicatorMode.Boundary
+        it.endIndicatorMode = IndicatorMode.Boundary
     }
 
     LaunchedEffect(uiState.isRefreshing) {

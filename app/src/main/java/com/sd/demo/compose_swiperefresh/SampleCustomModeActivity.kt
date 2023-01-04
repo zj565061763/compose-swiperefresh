@@ -46,7 +46,7 @@ private fun Sample(
     val uiState by viewModel.uiState.collectAsState()
 
     val state = rememberFSwipeRefreshState {
-        this.startIndicatorMode = IndicatorMode.Drag
+        it.startIndicatorMode = IndicatorMode.Drag
     }
 
     LaunchedEffect(uiState.isRefreshing) {

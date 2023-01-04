@@ -39,10 +39,10 @@ private fun Sample(
 
     val state = rememberFSwipeRefreshState {
         // Set 'Drag' mode for the start direction.
-        this.startIndicatorMode = IndicatorMode.Drag
+        it.startIndicatorMode = IndicatorMode.Drag
 
         // Set 'Drag' mode for the end direction.
-        this.endIndicatorMode = IndicatorMode.Drag
+        it.endIndicatorMode = IndicatorMode.Drag
     }
 
     LaunchedEffect(uiState.isRefreshing) {

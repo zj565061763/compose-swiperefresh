@@ -114,10 +114,10 @@ Well that is it, if you want to learn more about how to customize the indicator 
 
 val state = rememberFSwipeRefreshState {
     // Set indicator mode for the start direction. 'Above' is the default indicator mode.
-    this.startIndicatorMode = IndicatorMode.Above
+    it.startIndicatorMode = IndicatorMode.Above
 
     // Set indicator mode for the end direction.
-    this.endIndicatorMode = IndicatorMode.Above
+    it.endIndicatorMode = IndicatorMode.Above
 }
 
 FSwipeRefresh(
