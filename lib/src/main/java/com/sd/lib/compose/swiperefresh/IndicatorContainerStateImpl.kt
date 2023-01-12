@@ -41,7 +41,7 @@ abstract class ExpandedIndicatorContainerState(
     ContainerApiForIndicator,
     ContainerApiForSwipeRefresh {
 
-    //-------------------- Api for Indicator --------------------
+    //-------------------- ContainerApiForIndicator --------------------
 
     private var _refreshingDistanceState by mutableStateOf<Int?>(null)
     private var _refreshTriggerDistanceState by mutableStateOf<Int?>(null)
@@ -109,7 +109,7 @@ abstract class ExpandedIndicatorContainerState(
         _hideRefreshingCallbacks.remove(callback)
     }
 
-    //-------------------- Api for SwipeRefresh --------------------
+    //-------------------- ContainerApiForSwipeRefresh --------------------
 
     private var _swipeRefreshApi: SwipeRefreshApiForContainer? = null
     private var _refreshingDistanceJob: Job? = null
