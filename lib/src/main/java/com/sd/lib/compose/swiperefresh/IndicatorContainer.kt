@@ -60,7 +60,7 @@ val LocalContainerApiForIndicator = staticCompositionLocalOf<ContainerApiForIndi
 private fun DefaultIndicatorContainer(
     state: IndicatorContainerState,
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
+    indicator: @Composable () -> Unit,
 ) {
     require(state is ContainerApiForIndicator) { "state should be instance of ContainerApiForIndicator." }
     require(state is ContainerApiForSwipeRefresh) { "state should be instance of ContainerApiForSwipeRefresh." }
@@ -98,8 +98,6 @@ private fun DefaultIndicatorContainer(
         }
     }
 
-    val isActive = swipeRefreshState.currentDirection == state.direction
-
     val contentScope: @Composable BoxScope.() -> Unit = {
         CompositionLocalProvider(
             LocalIndicatorContainerState provides state,
@@ -107,11 +105,11 @@ private fun DefaultIndicatorContainer(
         ) {
             Box(
                 modifier = Modifier.graphicsLayer {
-                    alpha = if (isActive) 1f else 0f
+                    alpha = if (swipeRefreshState.currentDirection == state.direction) 1f else 0f
                 },
                 contentAlignment = Alignment.Center,
             ) {
-                content()
+                indicator()
             }
         }
     }
