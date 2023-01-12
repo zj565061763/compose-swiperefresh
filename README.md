@@ -12,23 +12,17 @@
 // Your ui state.
 val uiState by viewModel.uiState.collectAsState()
 
-// Remember FSwipeRefreshState.
-val state = rememberFSwipeRefreshState()
-
-LaunchedEffect(uiState.isRefreshing) {
-    // Sync ui state in the start direction, 'onRefreshStart' this will not be called when 'isRefreshing' is true.
-    state.refreshStart(uiState.isRefreshing)
-}
-LaunchedEffect(uiState.isLoadingMore) {
-    // Sync ui state in the end direction. 'onRefreshEnd' will not be called when 'isLoadingMore' is true.
-    state.refreshEnd(uiState.isLoadingMore)
-}
-
 FSwipeRefresh(
-    state = state,
+    // Sync ui state in the start direction
+    isRefreshingStart = uiState.isRefreshing,
+
+    // Sync ui state in the end direction.
+    isRefreshingEnd = uiState.isLoadingMore,
+
     onRefreshStart = {
         // Refresh in the start direction.
     },
+
     onRefreshEnd = {
         // Refresh in the end direction.
     },
