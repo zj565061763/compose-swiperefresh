@@ -163,6 +163,7 @@ private fun StartIndicatorContent(isReachBounds: Boolean) {
     if (indicatorHeight > 0) {
         LaunchedEffect(containerApi, indicatorHeight) {
             containerApi.setRefreshingDistance(indicatorHeight)
+            containerApi.setRefreshTriggerDistance((indicatorHeight * 1.3f).toInt())
         }
     }
 }
