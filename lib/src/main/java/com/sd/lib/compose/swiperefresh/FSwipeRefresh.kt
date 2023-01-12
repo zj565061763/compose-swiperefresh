@@ -34,10 +34,12 @@ fun rememberFSwipeRefreshState(onCreate: (FSwipeRefreshState) -> Unit = {}): FSw
 
 @Composable
 fun FSwipeRefresh(
+    modifier: Modifier = Modifier,
     state: FSwipeRefreshState = rememberFSwipeRefreshState(),
+    isRefreshingStart: Boolean? = null,
+    isRefreshingEnd: Boolean? = null,
     onRefreshStart: (() -> Unit)? = null,
     onRefreshEnd: (() -> Unit)? = null,
-    modifier: Modifier = Modifier,
     orientationMode: OrientationMode = OrientationMode.Vertical,
     indicatorStart: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
     indicatorEnd: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
@@ -52,8 +54,10 @@ fun FSwipeRefresh(
     content: @Composable () -> Unit,
 ) {
     SwipeRefresh(
-        state = state,
         modifier = modifier,
+        state = state,
+        isRefreshingStart = isRefreshingStart,
+        isRefreshingEnd = isRefreshingEnd,
         orientationMode = orientationMode,
         onRefreshStart = onRefreshStart,
         onRefreshEnd = onRefreshEnd,
@@ -64,8 +68,10 @@ fun FSwipeRefresh(
 
 @Composable
 private fun SwipeRefresh(
-    state: FSwipeRefreshState,
     modifier: Modifier = Modifier,
+    state: FSwipeRefreshState,
+    isRefreshingStart: Boolean? = null,
+    isRefreshingEnd: Boolean? = null,
     orientationMode: OrientationMode,
     onRefreshStart: (() -> Unit)? = null,
     onRefreshEnd: (() -> Unit)? = null,
@@ -78,6 +84,18 @@ private fun SwipeRefresh(
     state._onRefreshStart = onRefreshStart
     state._onRefreshEnd = onRefreshEnd
     state.layoutSize = layoutSize
+
+    if (isRefreshingStart != null) {
+        LaunchedEffect(state, isRefreshingStart) {
+            state.refreshStart(isRefreshingStart)
+        }
+    }
+
+    if (isRefreshingEnd != null) {
+        LaunchedEffect(state, isRefreshingEnd) {
+            state.refreshEnd(isRefreshingEnd)
+        }
+    }
 
     Box(
         modifier = modifier

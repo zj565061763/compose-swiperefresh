@@ -47,21 +47,14 @@ private fun Sample(
         it.endIndicatorMode = IndicatorMode.Drag
     }
 
-    LaunchedEffect(uiState.isRefreshing) {
-        // Sync ui state in the start direction, 'onRefreshStart' this will not be called when 'isRefreshing' is true.
-        state.refreshStart(uiState.isRefreshing)
-    }
-    LaunchedEffect(uiState.isLoadingMore) {
-        // Sync ui state in the end direction. 'onRefreshEnd' will not be called when 'isLoadingMore' is true.
-        state.refreshEnd(uiState.isLoadingMore)
-    }
-
     LaunchedEffect(Unit) {
         viewModel.refresh(20)
     }
 
     FSwipeRefresh(
         state = state,
+        isRefreshingStart = uiState.isRefreshing,
+        isRefreshingEnd = uiState.isLoadingMore,
         onRefreshStart = {
             // Refresh in the start direction.
             logMsg { "onRefreshStart" }
