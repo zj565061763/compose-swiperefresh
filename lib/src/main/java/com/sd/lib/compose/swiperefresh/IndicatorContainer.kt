@@ -8,7 +8,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.dp
 import com.sd.lib.compose.swiperefresh.indicator.DefaultSwipeRefreshIndicator
 
 /**
@@ -147,9 +146,7 @@ private fun VerticalBox(
         modifier = Modifier.offset { IntOffset(0, offset) }
     ) {
         Box(
-            modifier = modifier
-                .fillMaxWidth()
-                .defaultMinSize(minHeight = 50.dp),
+            modifier = modifier.fillMaxWidth(),
             contentAlignment = Alignment.Center,
             content = content,
         )
@@ -166,9 +163,7 @@ private fun HorizontalBox(
         modifier = Modifier.offset { IntOffset(offset, 0) }
     ) {
         Box(
-            modifier = modifier
-                .fillMaxHeight()
-                .defaultMinSize(minWidth = 50.dp),
+            modifier = modifier.fillMaxHeight(),
             contentAlignment = Alignment.Center,
             content = content,
         )
