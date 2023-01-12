@@ -25,9 +25,8 @@ fun StartIndicatorContainer(
     DefaultIndicatorContainer(
         state = state,
         modifier = modifier,
-    ) {
-        indicator()
-    }
+        indicator = indicator,
+    )
 }
 
 /**
@@ -45,9 +44,8 @@ fun EndIndicatorContainer(
     DefaultIndicatorContainer(
         state = state,
         modifier = modifier,
-    ) {
-        indicator()
-    }
+        indicator = indicator,
+    )
 }
 
 val LocalIndicatorContainerState = staticCompositionLocalOf<IndicatorContainerState?> { null }
@@ -106,8 +104,7 @@ private fun DefaultIndicatorContainer(
             Box(
                 modifier = Modifier.graphicsLayer {
                     alpha = if (swipeRefreshState.currentDirection == state.direction) 1f else 0f
-                },
-                contentAlignment = Alignment.Center,
+                }
             ) {
                 indicator()
             }
