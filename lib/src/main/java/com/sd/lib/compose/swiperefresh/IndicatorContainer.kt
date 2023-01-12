@@ -71,12 +71,10 @@ private fun DefaultIndicatorContainer(
 
     if (state is BaseIndicatorContainerState) {
         check(state.swipeRefreshState === swipeRefreshState) { "state.swipeRefreshState != LocalFSwipeRefreshState.current" }
-        state.setContainerSize(
-            when (swipeRefreshState.orientationMode) {
-                OrientationMode.Vertical -> containerSize.height
-                OrientationMode.Horizontal -> containerSize.width
-            }
-        )
+        state.containerSizeState = when (swipeRefreshState.orientationMode) {
+            OrientationMode.Vertical -> containerSize.height
+            OrientationMode.Horizontal -> containerSize.width
+        }
     }
 
     DisposableEffect(state) {

@@ -16,11 +16,11 @@ abstract class BaseIndicatorContainerState(
     val direction: RefreshDirection,
 ) : IndicatorContainerState {
 
-    private var _containerSizeState by mutableStateOf(0)
+    internal var containerSizeState by mutableStateOf(0)
 
     private val _defaultOffsetState by derivedStateOf {
         when (direction) {
-            RefreshDirection.Start -> -_containerSizeState
+            RefreshDirection.Start -> -containerSizeState
             RefreshDirection.End -> {
                 when (swipeRefreshState.orientationMode) {
                     OrientationMode.Vertical -> swipeRefreshState.layoutSize.height
@@ -30,16 +30,8 @@ abstract class BaseIndicatorContainerState(
         }
     }
 
-    val containerSize: Int
-        get() = _containerSizeState
-
     override val offset: Int
         get() = _defaultOffsetState
-
-    fun setContainerSize(size: Int) {
-        if (size < 0) return
-        _containerSizeState = size
-    }
 }
 
 abstract class ExpandedIndicatorContainerState(
@@ -70,6 +62,9 @@ abstract class ExpandedIndicatorContainerState(
             )
         }.absoluteValue.coerceIn(0f, 1f)
     }
+
+    override val containerSize: Int
+        get() = containerSizeState
 
     override val refreshingDistance: Int by derivedStateOf {
         _refreshingDistanceState ?: containerSize
