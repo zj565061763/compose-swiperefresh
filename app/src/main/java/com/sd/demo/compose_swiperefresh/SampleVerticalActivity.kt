@@ -53,8 +53,12 @@ private fun Sample(
 
     FSwipeRefresh(
         state = state,
+        // Sync ui state in the start direction
         isRefreshingStart = uiState.isRefreshing,
+
+        // Sync ui state in the end direction.
         isRefreshingEnd = uiState.isLoadingMore,
+
         onRefreshStart = {
             // Refresh in the start direction.
             logMsg { "onRefreshStart" }
