@@ -58,6 +58,7 @@ internal fun GoogleSwipeRefreshIndicator(
     spinnerSize: Dp,
     padding: PaddingValues,
     shadow: Boolean,
+    rotationZ: Float = 0f,
 ) {
     PaddingSizedBox(
         size = size,
@@ -73,7 +74,11 @@ internal fun GoogleSwipeRefreshIndicator(
                 animationSpec = tween(CrossfadeDurationMs),
             ) { refreshing ->
                 Box(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .graphicsLayer {
+                            this.rotationZ = rotationZ
+                        },
                     contentAlignment = Alignment.Center
                 ) {
                     if (refreshing) {

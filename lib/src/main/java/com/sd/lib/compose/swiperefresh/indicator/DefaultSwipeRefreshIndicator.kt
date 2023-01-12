@@ -96,7 +96,6 @@ fun DefaultSwipeRefreshIndicator(
             .graphicsLayer {
                 scaleX = animScale.value
                 scaleY = animScale.value
-                rotationZ = rotation
             }
             .onSizeChanged {
                 indicatorSize = it
@@ -108,5 +107,6 @@ fun DefaultSwipeRefreshIndicator(
         spinnerSize = spinnerSize,
         padding = padding,
         shadow = shadow,
+        rotationZ = rotation,
     )
 }
