@@ -49,19 +49,14 @@ private fun Sample(
         it.startIndicatorMode = IndicatorMode.Drag
     }
 
-    LaunchedEffect(uiState.isRefreshing) {
-        state.refreshStart(uiState.isRefreshing)
-    }
-    LaunchedEffect(uiState.isLoadingMore) {
-        state.refreshEnd(uiState.isLoadingMore)
-    }
-
     LaunchedEffect(Unit) {
         viewModel.refresh(20)
     }
 
     FSwipeRefresh(
         state = state,
+        isRefreshingStart = uiState.isRefreshing,
+        isRefreshingEnd = uiState.isLoadingMore,
         onRefreshStart = {
             logMsg { "onRefreshStart" }
             viewModel.refresh(20)
