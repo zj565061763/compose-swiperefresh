@@ -35,21 +35,16 @@ private fun Sample(
     viewModel: MainViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-
     val state = rememberFSwipeRefreshState()
 
-    LaunchedEffect(uiState.isRefreshing) {
-        state.refreshStart(uiState.isRefreshing)
-    }
-    LaunchedEffect(uiState.isLoadingMore) {
-        state.refreshEnd(uiState.isLoadingMore)
-    }
     LaunchedEffect(Unit) {
         viewModel.refresh(10)
     }
 
     FSwipeRefresh(
         state = state,
+        isRefreshingStart = uiState.isRefreshing,
+        isRefreshingEnd = uiState.isLoadingMore,
         orientationMode = OrientationMode.Horizontal,
         onRefreshStart = {
             logMsg { "onRefreshStart" }
