@@ -439,14 +439,17 @@ class FSwipeRefreshState internal constructor(
     }
 
     private suspend fun resetOffset(anim: Boolean) {
-        if (anim) {
-            animateToOffset(0f, RefreshState.None)
-        } else {
-            _animOffset.stop()
+        try {
+            if (anim) {
+                animateToOffset(0f, RefreshState.None)
+            } else {
+                _animOffset.stop()
+            }
+        } finally {
+            _internalOffset = 0f
+            contentOffset = 0f
+            _refreshState = RefreshState.None
         }
-        _internalOffset = 0f
-        contentOffset = 0f
-        _refreshState = RefreshState.None
     }
 
     private suspend fun animateToOffset(offset: Float, futureState: RefreshState) {
