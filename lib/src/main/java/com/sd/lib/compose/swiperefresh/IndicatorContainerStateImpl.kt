@@ -245,7 +245,7 @@ abstract class DraggableIndicatorContainerState(
         val notifyRefresh = reachRefreshDistance
 
         swipeRefreshApi.launch {
-            if (notifyRefresh && swipeRefreshApi.hasCallback()) {
+            if (notifyRefresh) {
                 if (showRefreshing()) {
                     swipeRefreshApi.notifyCallback()
                     delay(100)

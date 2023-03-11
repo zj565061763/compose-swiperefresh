@@ -42,8 +42,10 @@ fun FSwipeRefresh(
     state: FSwipeRefreshState = rememberFSwipeRefreshState(),
     isRefreshingStart: Boolean? = null,
     isRefreshingEnd: Boolean? = null,
-    onRefreshStart: (() -> Unit)? = null,
-    onRefreshEnd: (() -> Unit)? = null,
+    onRefreshStart: () -> Unit = {},
+    onRefreshEnd: () -> Unit = {},
+    enableSwipeStart: Boolean = true,
+    enableSwipeEnd: Boolean = true,
     orientationMode: OrientationMode = OrientationMode.Vertical,
     indicatorStart: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
     indicatorEnd: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
@@ -65,6 +67,8 @@ fun FSwipeRefresh(
         orientationMode = orientationMode,
         onRefreshStart = onRefreshStart,
         onRefreshEnd = onRefreshEnd,
+        enableSwipeStart = enableSwipeStart,
+        enableSwipeEnd = enableSwipeEnd,
         indicator = indicator,
         content = content,
     )
@@ -76,9 +80,11 @@ private fun SwipeRefresh(
     state: FSwipeRefreshState,
     isRefreshingStart: Boolean? = null,
     isRefreshingEnd: Boolean? = null,
+    onRefreshStart: () -> Unit = {},
+    onRefreshEnd: () -> Unit = {},
+    enableSwipeStart: Boolean = true,
+    enableSwipeEnd: Boolean = true,
     orientationMode: OrientationMode,
-    onRefreshStart: (() -> Unit)? = null,
-    onRefreshEnd: (() -> Unit)? = null,
     indicator: @Composable () -> Unit,
     content: @Composable () -> Unit,
 ) {
@@ -87,6 +93,8 @@ private fun SwipeRefresh(
     state._orientationMode = orientationMode
     state._onRefreshStart = onRefreshStart
     state._onRefreshEnd = onRefreshEnd
+    state._enableSwipeStart = enableSwipeStart
+    state._enableSwipeEnd = enableSwipeEnd
     state.layoutSize = layoutSize
 
     if (isRefreshingStart != null) {
@@ -211,9 +219,11 @@ class FSwipeRefreshState internal constructor(
             }
         }
     }
-    internal var _onRefreshStart: (() -> Unit)? = null
-    internal var _onRefreshEnd: (() -> Unit)? = null
+    internal var _onRefreshStart: () -> Unit = {}
+    internal var _onRefreshEnd: () -> Unit = {}
 
+    internal var _enableSwipeStart = true
+    internal var _enableSwipeEnd = true
 
     private val _containerJobs: MutableMap<Job, String> = hashMapOf()
 
@@ -378,12 +388,8 @@ class FSwipeRefreshState internal constructor(
                 contentOffset = offset
             }
 
-            override fun hasCallback(): Boolean {
-                return refreshDirection.refreshCallback() != null
-            }
-
             override fun notifyCallback() {
-                refreshDirection.refreshCallback()?.invoke()
+                refreshDirection.refreshCallback().invoke()
             }
 
             override fun launch(cancellable: Boolean, block: suspend CoroutineScope.() -> Unit) {
@@ -535,14 +541,14 @@ class FSwipeRefreshState internal constructor(
         override fun handlePostScroll(available: Offset, source: NestedScrollSource): Offset {
             val change = unpack(available)
 
-            if (_onRefreshStart != null) {
+            if (_enableSwipeStart) {
                 val startConsume = startContainerApi?.onPostScroll(change, source)
                 if (startConsume != null && startConsume != 0f) {
                     return packConsume(startConsume)
                 }
             }
 
-            if (_onRefreshEnd != null) {
+            if (_enableSwipeEnd) {
                 val endConsume = endContainerApi?.onPostScroll(change, source)
                 if (endConsume != null && endConsume != 0f) {
                     return packConsume(endConsume)
@@ -576,7 +582,7 @@ class FSwipeRefreshState internal constructor(
         }
     }
 
-    private fun RefreshDirection.refreshCallback(): (() -> Unit)? {
+    private fun RefreshDirection.refreshCallback(): (() -> Unit) {
         return when (this) {
             RefreshDirection.Start -> _onRefreshStart
             RefreshDirection.End -> _onRefreshEnd
@@ -609,8 +615,6 @@ interface SwipeRefreshApiForContainer {
     fun appendOffset(offset: Float)
 
     fun setContentOffset(offset: Float)
-
-    fun hasCallback(): Boolean
 
     fun notifyCallback()
 
