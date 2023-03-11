@@ -77,8 +77,16 @@ private fun DefaultIndicatorContainer(
 
     DisposableEffect(state) {
         when (state.direction) {
-            RefreshDirection.Start -> swipeRefreshState.startContainerApi = state
-            RefreshDirection.End -> swipeRefreshState.endContainerApi = state
+            RefreshDirection.Start -> {
+                if (swipeRefreshState.startContainerApi == null) {
+                    swipeRefreshState.startContainerApi = state
+                } else error("State's start container api has been specified.")
+            }
+            RefreshDirection.End -> {
+                if (swipeRefreshState.endContainerApi == null) {
+                    swipeRefreshState.endContainerApi = state
+                } else error("State's end container api has been specified.")
+            }
         }
         onDispose {
             when (state.direction) {
