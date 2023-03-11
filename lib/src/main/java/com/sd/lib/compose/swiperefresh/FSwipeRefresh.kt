@@ -27,9 +27,13 @@ import kotlin.properties.ReadWriteProperty
 val LocalFSwipeRefreshState = staticCompositionLocalOf<FSwipeRefreshState?> { null }
 
 @Composable
-fun rememberFSwipeRefreshState(onCreate: (FSwipeRefreshState) -> Unit = {}): FSwipeRefreshState {
+fun rememberFSwipeRefreshState(onCreate: ((FSwipeRefreshState) -> Unit)? = null): FSwipeRefreshState {
     val coroutineScope = rememberCoroutineScope()
-    return remember { FSwipeRefreshState(coroutineScope).also(onCreate) }
+    return remember {
+        FSwipeRefreshState(coroutineScope).also {
+            onCreate?.invoke(it)
+        }
+    }
 }
 
 @Composable
@@ -97,22 +101,18 @@ private fun SwipeRefresh(
         }
     }
 
-    Box(
-        modifier = modifier
-            .nestedScroll(state.nestedScrollConnection)
-            .onSizeChanged { layoutSize = it }
-            .clipToBounds()
-    ) {
-        Box(
-            modifier = Modifier
-                .zIndex(0f)
-                .offset {
-                    when (state.orientationMode) {
-                        OrientationMode.Vertical -> IntOffset(0, state.contentOffset.roundToInt())
-                        OrientationMode.Horizontal -> IntOffset(state.contentOffset.roundToInt(), 0)
-                    }
+    Box(modifier = modifier
+        .nestedScroll(state.nestedScrollConnection)
+        .onSizeChanged { layoutSize = it }
+        .clipToBounds()) {
+        Box(modifier = Modifier
+            .zIndex(0f)
+            .offset {
+                when (state.orientationMode) {
+                    OrientationMode.Vertical -> IntOffset(0, state.contentOffset.roundToInt())
+                    OrientationMode.Horizontal -> IntOffset(state.contentOffset.roundToInt(), 0)
                 }
-        ) {
+            }) {
             content()
         }
 
@@ -455,9 +455,7 @@ class FSwipeRefreshState internal constructor(
     private suspend fun animateToOffset(offset: Float, futureState: RefreshState) {
         if (_internalOffset == offset) return
 
-        if (_animOffset.isRunning && _animOffset.targetValue == offset
-            && flingEndState == futureState
-        ) {
+        if (_animOffset.isRunning && _animOffset.targetValue == offset && flingEndState == futureState) {
             // Nothing changed.
             return
         }
@@ -587,27 +585,19 @@ class FSwipeRefreshState internal constructor(
 }
 
 enum class OrientationMode {
-    Vertical,
-    Horizontal,
+    Vertical, Horizontal,
 }
 
 enum class IndicatorMode {
-    Above,
-    Drag,
-    Below,
-    Boundary,
+    Above, Drag, Below, Boundary,
 }
 
 enum class RefreshDirection {
-    Start,
-    End,
+    Start, End,
 }
 
 enum class RefreshState {
-    None,
-    Drag,
-    Fling,
-    Refreshing,
+    None, Drag, Fling, Refreshing,
 }
 
 data class RefreshStateRecord internal constructor(
