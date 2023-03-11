@@ -20,7 +20,7 @@ fun StartIndicatorContainer(
     indicator: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
 ) {
     require(state is ContainerApiForIndicator) { "state should be instance of ContainerApiForIndicator." }
-    check(state.direction == RefreshDirection.Start) { "state.direction != RefreshDirection.End" }
+    check(state.direction == RefreshDirection.Start) { "state.direction != RefreshDirection.Start" }
 
     DefaultIndicatorContainer(
         state = state,
