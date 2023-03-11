@@ -172,25 +172,6 @@ abstract class ExpandedIndicatorContainerState(
         _refreshingDistanceJob?.cancel()
         _swipeRefreshApi = null
     }
-
-    companion object {
-        private fun calculateProgress(ignored: Float, distance: Float, total: Float): Float {
-            require(ignored >= 0f)
-            require(distance >= 0f)
-            require(total >= 0f)
-
-            if (total == 0f) return 0f
-            if (ignored == 0f) return distance / total
-
-            val newDistance = distance - ignored
-            if (newDistance <= 0f) return 0f
-
-            val newTotal = total - ignored
-            if (newTotal <= 0f) return 0f
-
-            return newDistance / newTotal
-        }
-    }
 }
 
 abstract class DraggableIndicatorContainerState(
@@ -372,4 +353,25 @@ open class IndicatorContainerStateBoundary(
         swipeRefreshApi.appendOffset(delta)
         return true
     }
+}
+
+private fun calculateProgress(
+    ignored: Float,
+    distance: Float,
+    total: Float,
+): Float {
+    require(ignored >= 0f)
+    require(distance >= 0f)
+    require(total >= 0f)
+
+    if (total == 0f) return 0f
+    if (ignored == 0f) return distance / total
+
+    val newDistance = distance - ignored
+    if (newDistance <= 0f) return 0f
+
+    val newTotal = total - ignored
+    if (newTotal <= 0f) return 0f
+
+    return newDistance / newTotal
 }
