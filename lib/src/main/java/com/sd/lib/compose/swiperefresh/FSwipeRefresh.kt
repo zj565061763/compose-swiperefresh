@@ -27,7 +27,9 @@ import kotlin.properties.ReadWriteProperty
 val LocalFSwipeRefreshState = staticCompositionLocalOf<FSwipeRefreshState?> { null }
 
 @Composable
-fun rememberFSwipeRefreshState(onCreate: ((FSwipeRefreshState) -> Unit)? = null): FSwipeRefreshState {
+fun rememberFSwipeRefreshState(
+    onCreate: ((FSwipeRefreshState) -> Unit)? = null,
+): FSwipeRefreshState {
     val coroutineScope = rememberCoroutineScope()
     return remember {
         FSwipeRefreshState(coroutineScope).also {
@@ -40,12 +42,12 @@ fun rememberFSwipeRefreshState(onCreate: ((FSwipeRefreshState) -> Unit)? = null)
 fun FSwipeRefresh(
     modifier: Modifier = Modifier,
     state: FSwipeRefreshState = rememberFSwipeRefreshState(),
-    isRefreshingStart: Boolean? = null,
-    isRefreshingEnd: Boolean? = null,
-    onRefreshStart: () -> Unit = {},
-    onRefreshEnd: () -> Unit = {},
-    enableSwipeStart: Boolean = true,
-    enableSwipeEnd: Boolean = true,
+    isRefreshingStart: Boolean?,
+    isRefreshingEnd: Boolean?,
+    onRefreshStart: (() -> Unit)?,
+    onRefreshEnd: (() -> Unit)?,
+    enableSwipeStart: Boolean = onRefreshStart != null,
+    enableSwipeEnd: Boolean = onRefreshEnd != null,
     orientationMode: OrientationMode = OrientationMode.Vertical,
     indicatorStart: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
     indicatorEnd: @Composable () -> Unit = { DefaultSwipeRefreshIndicator() },
@@ -65,8 +67,8 @@ fun FSwipeRefresh(
         isRefreshingStart = isRefreshingStart,
         isRefreshingEnd = isRefreshingEnd,
         orientationMode = orientationMode,
-        onRefreshStart = onRefreshStart,
-        onRefreshEnd = onRefreshEnd,
+        onRefreshStart = onRefreshStart ?: {},
+        onRefreshEnd = onRefreshEnd ?: {},
         enableSwipeStart = enableSwipeStart,
         enableSwipeEnd = enableSwipeEnd,
         indicator = indicator,
@@ -78,12 +80,12 @@ fun FSwipeRefresh(
 private fun SwipeRefresh(
     modifier: Modifier = Modifier,
     state: FSwipeRefreshState,
-    isRefreshingStart: Boolean? = null,
-    isRefreshingEnd: Boolean? = null,
-    onRefreshStart: () -> Unit = {},
-    onRefreshEnd: () -> Unit = {},
-    enableSwipeStart: Boolean = true,
-    enableSwipeEnd: Boolean = true,
+    isRefreshingStart: Boolean?,
+    isRefreshingEnd: Boolean?,
+    onRefreshStart: () -> Unit,
+    onRefreshEnd: () -> Unit,
+    enableSwipeStart: Boolean,
+    enableSwipeEnd: Boolean,
     orientationMode: OrientationMode,
     indicator: @Composable () -> Unit,
     content: @Composable () -> Unit,
