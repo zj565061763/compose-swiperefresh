@@ -9,19 +9,19 @@ val libArtifactId = "compose-swiperefresh"
 val libVersionName = "1.0.0-alpha10"
 
 android {
-    namespace ="com.sd.lib.compose.swiperefresh"
+    namespace = "com.sd.lib.compose.swiperefresh"
     compileSdk = libs.versions.androidCompileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.androidMinSdk.get().toInt()
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-        kotlinOptions.freeCompilerArgs += "-module-name=$libGroupId.$libArtifactId"
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
+        freeCompilerArgs += "-module-name=$libGroupId.$libArtifactId"
     }
 
     buildFeatures {
