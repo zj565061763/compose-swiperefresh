@@ -1,5 +1,6 @@
 package com.sd.lib.compose.swiperefresh
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -13,6 +14,7 @@ import com.sd.lib.compose.swiperefresh.indicator.DefaultSwipeRefreshIndicator
 /**
  * Indicator container for the start direction.
  */
+@SuppressLint("ModifierParameter")
 @Composable
 fun StartIndicatorContainer(
     state: IndicatorContainerState = rememberStartIndicatorContainerState(),
@@ -32,6 +34,7 @@ fun StartIndicatorContainer(
 /**
  * Indicator container for the end direction.
  */
+@SuppressLint("ModifierParameter")
 @Composable
 fun EndIndicatorContainer(
     state: IndicatorContainerState = rememberEndIndicatorContainerState(),
@@ -82,6 +85,7 @@ private fun DefaultIndicatorContainer(
                     swipeRefreshState.startContainerApi = state
                 } else error("State's start container api has been specified.")
             }
+
             RefreshDirection.End -> {
                 if (swipeRefreshState.endContainerApi == null) {
                     swipeRefreshState.endContainerApi = state
@@ -95,6 +99,7 @@ private fun DefaultIndicatorContainer(
                         swipeRefreshState.startContainerApi = null
                     }
                 }
+
                 RefreshDirection.End -> {
                     if (swipeRefreshState.endContainerApi == state) {
                         swipeRefreshState.endContainerApi = null
@@ -127,6 +132,7 @@ private fun DefaultIndicatorContainer(
                 content = contentScope,
             )
         }
+
         OrientationMode.Horizontal -> {
             HorizontalBox(
                 offset = state.offset,

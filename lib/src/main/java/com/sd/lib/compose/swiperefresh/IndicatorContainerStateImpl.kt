@@ -16,7 +16,7 @@ abstract class BaseIndicatorContainerState(
     val direction: RefreshDirection,
 ) : IndicatorContainerState {
 
-    internal var containerSizeState by mutableStateOf(0)
+    internal var containerSizeState by mutableIntStateOf(0)
 
     private val _defaultOffsetState by derivedStateOf {
         when (direction) {
