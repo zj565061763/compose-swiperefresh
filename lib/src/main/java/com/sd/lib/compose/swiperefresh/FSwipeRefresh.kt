@@ -166,13 +166,13 @@ class FSwipeRefreshState internal constructor(
     /**
      * Shared offset between containers.
      */
-    var sharedOffset: Float by mutableStateOf(0f)
+    var sharedOffset: Float by mutableFloatStateOf(0f)
         private set
 
     /**
      * The current offset for the content.
      */
-    var contentOffset: Float by mutableStateOf(0f)
+    var contentOffset: Float by mutableFloatStateOf(0f)
         private set
 
     /**
