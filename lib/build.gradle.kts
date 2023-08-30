@@ -6,7 +6,7 @@ plugins {
 
 val libGroupId = "com.sd.lib.android"
 val libArtifactId = "compose-swiperefresh"
-val libVersionName = "1.0.0-alpha15"
+val libVersionName = "1.0.0-alpha16"
 
 android {
     namespace = "com.sd.lib.compose.swiperefresh"
