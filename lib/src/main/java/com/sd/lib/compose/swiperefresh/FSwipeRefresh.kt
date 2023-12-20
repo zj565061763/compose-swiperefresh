@@ -4,7 +4,17 @@ import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
@@ -111,18 +121,22 @@ private fun SwipeRefresh(
         }
     }
 
-    Box(modifier = modifier
-        .nestedScroll(state.nestedScrollConnection)
-        .onSizeChanged { layoutSize = it }
-        .clipToBounds()) {
-        Box(modifier = Modifier
-            .zIndex(0f)
-            .offset {
-                when (state.orientationMode) {
-                    OrientationMode.Vertical -> IntOffset(0, state.contentOffset.roundToInt())
-                    OrientationMode.Horizontal -> IntOffset(state.contentOffset.roundToInt(), 0)
-                }
-            }) {
+    Box(
+        modifier = modifier
+            .nestedScroll(state.nestedScrollConnection)
+            .onSizeChanged { layoutSize = it }
+            .clipToBounds(),
+    ) {
+        Box(
+            modifier = Modifier
+                .zIndex(0f)
+                .offset {
+                    when (state.orientationMode) {
+                        OrientationMode.Vertical -> IntOffset(0, state.contentOffset.roundToInt())
+                        OrientationMode.Horizontal -> IntOffset(state.contentOffset.roundToInt(), 0)
+                    }
+                },
+        ) {
             content()
         }
 
@@ -133,7 +147,7 @@ private fun SwipeRefresh(
         }
 
         Box(
-            modifier = Modifier.zIndex(containerApi?.zIndex ?: 1f)
+            modifier = Modifier.zIndex(containerApi?.zIndex ?: 1f),
         ) {
             CompositionLocalProvider(LocalFSwipeRefreshState provides state) {
                 indicator()
@@ -204,6 +218,7 @@ class FSwipeRefreshState internal constructor(
      * Indicator mode for the start direction.
      */
     var startIndicatorMode: IndicatorMode by mutableStateOf(IndicatorMode.Above)
+
     /**
      * Indicator mode for the end direction.
      */
@@ -273,6 +288,7 @@ class FSwipeRefreshState internal constructor(
                     flingEndState = null
                     currentDirection = null
                 }
+
                 else -> checkNotNull(currentDirection) { "Direction is null." }
             }
         }
