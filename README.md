@@ -1,6 +1,6 @@
 # Gradle
 
-[![](https://jitpack.io/v/zj565061763/compose-swiperefresh.svg)](https://jitpack.io/#zj565061763/comopse-swiperefresh)
+[![](https://jitpack.io/v/zj565061763/compose-swiperefresh.svg)](https://jitpack.io/#zj565061763/compose-swiperefresh)
 
 # Sample
 
